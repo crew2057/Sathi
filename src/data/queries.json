@@ -1,0 +1,56 @@
+[
+  {
+    "title": "what is this",
+    "type": "userDetails",
+    "options": [
+      {
+        "title": "value "
+      },
+      {
+        "title": "value"
+      },
+      {
+        "title": "value"
+      },
+      {
+        "title": "value"
+      }
+    ]
+  },
+  {
+    "title": "what is this",
+    "type": "therapistDetails",
+    "options": [
+      {
+        "title": "haha"
+      },
+      {
+        "title": "lol"
+      },
+      {
+        "title": "value"
+      },
+      {
+        "title": "value"
+      }
+    ]
+  },
+  {
+    "title": "what is this",
+    "type": "userDetails",
+    "options": [
+      {
+        "title": "value"
+      },
+      {
+        "title": "value"
+      },
+      {
+        "title": "value"
+      },
+      {
+        "title": "value"
+      }
+    ]
+  }
+]
