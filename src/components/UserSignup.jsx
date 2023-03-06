@@ -3,7 +3,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-export const UserSignup = () => {
+import { post } from "../services/middleware";
+export const UserSignup = (props) => {
   const {
     handleSubmit,
     register,
@@ -11,15 +12,29 @@ export const UserSignup = () => {
   } = useForm();
 
   const navigate = useNavigate();
+
   const onSubmit = async (values) => {
     console.log(values);
-    const res = await axios({
-      method: "post",
-      url: "http://localhost:5000/user/",
-      data: { ...values, role: "user" },
+    console.log(props.data.therapist, props.data.user);
+    const res = await post("http://localhost:5000/user/", {
+      ...values,
+      userInfo: props.data.user.map((user) => {
+        return {
+          question: Object.keys(user)[0],
+          answer: Object.values(user)[0],
+        };
+      }),
+      therapistDetails: {
+        communicationType: Object.values(props?.data.therapist[0])[0],
+        gender: Object.values(props?.data.therapist[1])[0],
+        age: Object.values(props?.data.therapist[2])[0],
+        speciality: Object.values(props?.data.therapist[3])[0],
+      },
+      role: "user",
     });
-    if (res) {
+    if (res.status === 200) {
       console.log(res);
+      navigate("/login");
     }
   };
   return (

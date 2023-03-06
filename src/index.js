@@ -5,15 +5,21 @@ import App from "./App";
 import { Provider } from "jotai";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter } from "react-router-dom";
+import AuthContext from "./data/auth";
+import UserContext from "./data/loggedin";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <ChakraProvider>
-        <Provider>
-          <App />
-        </Provider>
-      </ChakraProvider>
+      <AuthContext>
+        <UserContext>
+          <ChakraProvider>
+            <Provider>
+              <App />
+            </Provider>
+          </ChakraProvider>
+        </UserContext>
+      </AuthContext>
     </BrowserRouter>
   </React.StrictMode>
 );

@@ -13,12 +13,18 @@ import {
   Select,
   Text,
 } from "@chakra-ui/react";
-import axios from "axios";
-import React from "react";
+
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { post } from "../services/middleware";
 
 export const TherapistSignup = () => {
+  const [therapistDetails, setTherapistDetails] = useState({
+    speciality: "",
+    medium: "",
+  });
+  const [terms, setTerms] = useState(false);
   const {
     handleSubmit,
     register,
@@ -27,13 +33,15 @@ export const TherapistSignup = () => {
   const navigate = useNavigate();
   const onSubmit = async (values) => {
     console.log(values);
-    const res = await axios({
-      method: "post",
-      url: "http://localhost:5000/user/",
-      data: { ...values, role: "therapist" },
-    });
-    if (res) {
-      console.log(res);
+    if (terms) {
+      const res = await post("http://localhost:5000/user/", {
+        ...values,
+        therapistDetails: therapistDetails,
+        role: "therapist",
+      });
+      if (res) {
+        navigate("/login");
+      }
     }
   };
   return (
@@ -66,7 +74,89 @@ export const TherapistSignup = () => {
             </OrderedList>
           </Box>
           <Box w="75%">
-            <Grid templateColumns={"1fr 1fr"} w="90%" gap="1rem">
+            <Box
+              border="1px solid black"
+              borderRadius="1.5rem"
+              w="80%"
+              margin={"auto"}
+              marginBottom={"1rem"}
+              padding="0.3em 2em 0.5em 0.5em"
+            >
+              <Text fontSize="1rem">What is your field of Speciality?</Text>
+              <Select
+                padding="0"
+                fontSize="0.9rem"
+                focusBorderColor="transparent"
+                border="none"
+                onChange={(e) => {
+                  setTherapistDetails({
+                    ...therapistDetails,
+                    speciality: e.target.value,
+                  });
+                }}
+              >
+                <option value={""}>Select Speciality</option>
+
+                <option value={"Family"}>Family</option>
+                <option value={"Addiction"}>Addiction</option>
+                <option value={"Behaviour"}>Behaviour</option>
+                <option value={"Divorce"}>Divorce</option>
+                <option value={"Child"}>Child</option>
+                <option value={"Clinical"}>Clinical</option>
+                <option value={"Cognitive"}>Cognitive</option>
+                <option value={"Cognitive-Behavioral"}>
+                  Cognitive-Behavioral
+                </option>
+                <option value={"Eating-Disorder"}>Eating-Disorder</option>
+                <option value={"Exercise"}>Exercise</option>
+                <option value={"Youth"}>Youth</option>
+                <option value={"SocialWork"}>SocialWork</option>
+                <option value={"School"}>School</option>
+                <option value={"Trauma"}>Trauma</option>
+                <option value={"Nutritional"}>Nutritional</option>
+                <option value={"Social"}>Social</option>
+                <option value={"Dialect-Bheaviour"}>Dialect-Bheaviour</option>
+                <option value={"Psychodynamic"}>Psychodynamic</option>
+              </Select>
+            </Box>
+
+            <Box
+              border="1px solid black"
+              borderRadius="1.5rem"
+              w="80%"
+              margin={"auto"}
+              marginBottom={"1rem"}
+              padding="0.3em 2em 0.5em 0.5em"
+            >
+              <Text fontSize="1rem">
+                What Communication Medium are you comfortable dealing with your
+                patients?
+              </Text>
+              <Select
+                padding="0"
+                fontSize="0.9rem"
+                focusBorderColor="transparent"
+                border="none"
+                onChange={(e) => {
+                  setTherapistDetails({
+                    ...therapistDetails,
+                    medium: e.target.value,
+                  });
+                }}
+              >
+                <option value={""}>Select medium</option>
+
+                <option value={"Physical"}>Physical</option>
+                <option value={"Virtual"}>Virtual</option>
+                <option value={"Any"}>Any</option>
+              </Select>
+            </Box>
+            <Grid
+              templateColumns={"1fr 1fr"}
+              w="90%"
+              margin={"auto"}
+              gap="1rem"
+            >
               <Box
                 border="1px solid black"
                 borderRadius="1.5rem"
@@ -119,7 +209,8 @@ export const TherapistSignup = () => {
                   {...register("password")}
                 ></Input>
               </Box>
-              <Flex w="90%">
+
+              <Flex w="90%" margin={"auto"}>
                 <Box
                   border="1px solid black"
                   borderRadius="1.5rem"
@@ -216,7 +307,13 @@ export const TherapistSignup = () => {
               </Box>
             </Grid>
             <FormControl marginTop="2rem" marginLeft={"2rem"}>
-              <Checkbox colorScheme="green">
+              <Checkbox
+                colorScheme="green"
+                isChecked={terms}
+                onChange={(e) => {
+                  setTerms(!terms);
+                }}
+              >
                 I have read the terms and conditions and agree them.
               </Checkbox>
             </FormControl>

@@ -1,13 +1,16 @@
 import { Box, Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useState } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import HomeGreen from "../assets/HomeGreen.svg";
+import { Auth } from "../data/auth";
 export const Login = () => {
   const [login, setLogin] = useState({
     email: "",
     password: "",
   });
+  const { auth, setAuth } = useContext(Auth);
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,11 +19,15 @@ export const Login = () => {
       url: "http://localhost:5000/login/",
       data: { ...login },
     });
+    if (res.status === 200) {
+      localStorage.setItem("Stoken", res.data.token);
+      localStorage.setItem("userId", res.data.id);
 
-    if (res) {
-      console.log(res);
+      setAuth(true);
+      navigate("/home");
     }
   };
+
   return (
     <Box
       display={"flex"}

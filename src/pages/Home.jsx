@@ -14,7 +14,7 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import NavBar from "../components/NavBar";
 import HomeGreen from "../assets/HomeGreen.svg";
 import Boy from "../assets/boy.svg";
@@ -30,6 +30,8 @@ import CroodSitting from "../assets/CroodsSitting.svg";
 import CroodStanding from "../assets/CroodsStanding.svg";
 import Footer1 from "../assets/footer1.svg";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { Auth } from "../data/auth";
 const AccordionComp = (props) => {
   return (
     <AccordionItem padding={"0.5rem"}>
@@ -47,8 +49,10 @@ const AccordionComp = (props) => {
     </AccordionItem>
   );
 };
-const Home = () => {
+
+const Home = React.forwardRef((props, ref) => {
   const navigate = useNavigate();
+
   return (
     <Box>
       {" "}
@@ -86,12 +90,22 @@ const Home = () => {
         h={"95vh"}
         w="100vw"
         bgColor={"#F3F3C7"}
+        position="relative"
         bg="rgb(212,245,182)
+        
      linear-gradient(193deg, rgba(212,245,182,1) 0%, rgba(243,243,199,1) 67%) "
-        bgImage={orange1}
-        bgPos={"center 110%"}
-        bgSize="100vw"
-        bgRepeat={"no-repeat"}
+        _after={{
+          content: '""',
+          position: "absolute",
+          bottom: "-50px",
+          zIndex: "1",
+          width: "100%",
+          bgImage: `url(${orange1})`,
+          height: "40vh",
+          bgPosition: "bottom  ",
+          bgSize: "cover",
+          bgRepeat: "no-repeat",
+        }}
       >
         <Box w={"40%"} position="relative">
           <Image
@@ -114,7 +128,7 @@ const Home = () => {
           ></Image>
         </Box>
 
-        <Box w={"50%"} h="100%" padding="1rem">
+        <Box w={"50%"} h="100%" padding="1rem" zIndex={"2"}>
           <Flex flexDirection={"column"} marginTop="30%" gap={"1rem"}>
             <Heading fontSize={"4rem"}>
               Professional Therapists whom you can trust.{" "}
@@ -135,16 +149,46 @@ const Home = () => {
       {/* Section 3 */}
       <Box h={"200vh"} w="100vw" position={"relative"}>
         <Box
-          h={"140vh"}
+          h={"160vh"}
           w="100vw"
-          bgImage={orange2}
-          bgPos={"center -200px"}
           bgSize="100vw"
           bgRepeat={"no-repeat"}
           bgColor="#81E2A8"
+          position={"relative"}
+          zIndex={"-1"}
+          _before={{
+            content: '""',
+            position: "absolute",
+            top: "-20px",
+            zIndex: "-1",
+            width: "100%",
+            bgImage: `url(${orange2})`,
+            height: "40vh",
+            bgPosition: "top",
+            bgSize: "cover",
+            bgRepeat: "no-repeat",
+          }}
+          _after={{
+            content: '""',
+            position: "absolute",
+
+            bottom: "-20px",
+            zIndex: "-1",
+            width: "100%",
+            bgImage: `url(${orange3})`,
+            height: "40vh",
+            bgPosition: "bottom center ",
+            bgSize: "cover",
+            bgRepeat: "no-repeat",
+          }}
         >
           <Box h={"20vh"}></Box>
-          <Heading textAlign={"center"} fontSize="5rem">
+          <Heading
+            textAlign={"center"}
+            color="white"
+            textDecoration={"underline"}
+            fontSize="5rem"
+          >
             {" "}
             Features{" "}
           </Heading>
@@ -152,12 +196,13 @@ const Home = () => {
             w="75%"
             margin={"auto"}
             gridTemplateColumns={"1fr 1fr"}
+            zIndex={"3"}
             gridTemplateRows="1fr 1fr"
           >
             <GridItem>
               <Image src={chatting} />
             </GridItem>
-            <GridItem paddingTop={"8rem"}>
+            <GridItem paddingBlock={"8rem"}>
               <Heading>
                 Get Therapists recommended to your choices and needs
               </Heading>
@@ -170,14 +215,14 @@ const Home = () => {
                 goals.
               </Text>
             </GridItem>
-            <GridItem paddingTop={"5rem"}>
+            <GridItem paddingBlock={"5rem"}>
               <Heading>Sessions Anywhere Anytime</Heading>
-              <Text fontSize={"1.5rem"}>
+              <Text fontSize={"1.5rem"} zIndex={"1"}>
                 {" "}
                 Team of experienced therapists is trained in a variety of
                 approaches, including cognitive-behavioral therapy,
-                psychoanalytic therapy, and mindfulness-based therapy, and we
-                are committed to helping our clients achieve their therapeutic
+                psychoanalytic therapy, and mindfulness- based therapy, and we
+                are c ommitted to helping our clients achieve their therapeutic
                 goals.
               </Text>
             </GridItem>
@@ -187,22 +232,7 @@ const Home = () => {
             </GridItem>
           </Grid>
         </Box>
-        <Image
-          src={orange3}
-          top="55%"
-          minW="1500px"
-          w="100vw"
-          overflow={"hidden"}
-          position="absolute"
-        />
-        <Image
-          src={orange3}
-          top="70%"
-          w="100vw"
-          position="absolute"
-          zIndex={"2"}
-          transform="rotate(180deg)"
-        />
+
         {/* section4 */}
         <Box
           w={"100vw"}
@@ -213,10 +243,28 @@ const Home = () => {
           bgImage={Footer1}
           bgPos={" -300px bottom"}
           bgSize="130vw"
+          zIndex={"-1"}
           overflow="hidden"
+          _before={{
+            content: '""',
+            position: "absolute",
+            top: "-20px",
+            width: "100%",
+            bgImage: `url(${orange3})`,
+            height: "40vh",
+            transform: "rotate(180deg)",
+            bgPosition: "bottom center ",
+            bgSize: "cover",
+            bgRepeat: "no-repeat",
+          }}
           bgRepeat={"no-repeat"}
         >
-          <Heading paddingTop="23rem" fontSize={"3.5rem"} textAlign={"center"}>
+          <Heading
+            paddingTop="23rem"
+            ref={ref}
+            fontSize={"3.5rem"}
+            textAlign={"center"}
+          >
             Frequently Asked Questions
           </Heading>
           <Box w="50%" id="faq" h={"80%"} margin={"auto"}>
@@ -321,6 +369,6 @@ const Home = () => {
       </Box>
     </Box>
   );
-};
+});
 
 export default Home;

@@ -1,56 +1,168 @@
 [
   {
-    "title": "what is this",
+    "title": "What is your Gender",
+    "type": "userDetails",
+    "options": ["Male", "Female", "Other"]
+  },
+  {
+    "title": "What is your relationship status?",
     "type": "userDetails",
     "options": [
-      {
-        "title": "value "
-      },
-      {
-        "title": "value"
-      },
-      {
-        "title": "value"
-      },
-      {
-        "title": "value"
-      }
+      "Single",
+      "In a relationship",
+      "married",
+      "Divorced",
+      "Widowed",
+      "other"
     ]
   },
   {
-    "title": "what is this",
-    "type": "therapistDetails",
+    "title": "How would you rate your current physical health?",
+    "type": "userDetails",
+    "options": ["Good", "Fair", "Poor"]
+  },
+  {
+    "title": "How would you rate your current eating habits?",
+    "type": "userDetails",
+    "options": ["Good", "Fair", "Poor"]
+  },
+  {
+    "title": "Are you currently experiencing overwhelming sadness, grief, or depression?",
+    "type": "userDetails",
+    "options": ["Yes", "No"]
+  },
+  {
+    "title": "Are you currently experiencing anxiety, panic attacks or have any phobias?",
+    "type": "userDetails",
+    "options": ["Yes", "No"]
+  },
+  {
+    "title": "Are you currently experiencing any chronic pain?",
+    "type": "userDetails",
+    "options": ["Yes", "No"]
+  },
+  {
+    "title": "Are you currently having Trouble relaxing",
+    "type": "userDetails",
+    "options": ["Yes", "No"]
+  },
+
+  {
+    "title": "What led you to consider therapy today?",
+    "queryType": "checkbox",
+    "type": "userDetails",
     "options": [
-      {
-        "title": "haha"
-      },
-      {
-        "title": "lol"
-      },
-      {
-        "title": "value"
-      },
-      {
-        "title": "value"
-      }
+      "I've been feeling depressed",
+      "I feel anxious or overwhelmed",
+      "My mood is interfering with my job/school performance",
+      "I struggle with building or maintaining relationships",
+      "I can't find purpose and meaning in my life",
+      "I am grieving",
+      "I have experienced trauma",
+      "I need to talk through a specific challenge",
+      "I want to gain self confidence",
+      "I want to improve myself but I don't know where to start",
+      "Recommended to me(friend, family, doctor)",
+      "Just exploring",
+      "Other"
     ]
   },
   {
-    "title": "what is this",
+    "title": "Are there any events in your life that may be contributing to how you're feeling?",
     "type": "userDetails",
     "options": [
-      {
-        "title": "value"
-      },
-      {
-        "title": "value"
-      },
-      {
-        "title": "value"
-      },
-      {
-        "title": "value"
-      }
+      "Loss of a loved one",
+      "Family or relationship challenges",
+      "School or career challenges",
+      "Events or stressors (ex. big lifestyle changes, moving, new parent)",
+      "Other"
     ]
+  },
+  {
+    "title": "What are your expectations from your therapist? ",
+    "queryType": "checkbox",
+    "type": "userDetails",
+    "options": [
+      " Listens",
+      "Explores my past",
+      "Teaches me new skills",
+      "Challenges my beliefs",
+      "Assigns me homework",
+      "Guides me to set goals",
+      "Proactively checks in with me",
+      "Other",
+      "I don't know"
+    ]
+  },
+
+  {
+    "title": "Little interest or pleasure in doing things.",
+    "type": "userDetails",
+    "options": [
+      "Not at all",
+      "Several Days",
+      "More than half the days",
+      "Nearly every day"
+    ]
+  },
+  {
+    "title": "Moving or speaking so slowly that other people could have noticed? Or the opposite – being so fidgety or restless that you have been moving around a lot more than usual",
+    "type": "userDetails",
+    "options": [
+      "Not at all",
+      "Several Days",
+      "More than half the days",
+      "Nearly every day"
+    ]
+  },
+  {
+    "title": "Feeling down, depressed or hopeless.",
+    "type": "userDetails",
+    "options": [
+      "Not at all",
+      "Several Days",
+      "More than half the days",
+      "Nearly every day"
+    ]
+  },
+  {
+    "title": "Trouble falling asleep, staying asleep, or sleeping too much.",
+    "type": "userDetails",
+    "options": [
+      "Not at all",
+      "Several Days",
+      "More than half the days",
+      "Nearly every day"
+    ]
+  },
+  {
+    "title": "Feeling tired or having little energy.",
+    "type": "userDetails",
+    "options": [
+      "Not at all",
+      "Several Days",
+      "More than half the days",
+      "Nearly every day"
+    ]
+  },
+  {
+    "title": "Poor appetite or overeating.",
+    "type": "userDetails",
+    "options": [
+      "Not at all",
+      "Several Days",
+      "More than half the days",
+      "Nearly every day"
+    ]
+  },
+  {
+    "title": "Do you have any problems or worries about intimacy?",
+    "type": "userDetails",
+    "options": ["Yes", "No"]
+  },
+  {
+    "title": "How often do you drink alcohol?",
+    "type": "userDetails",
+    "options": ["Never", "Infrequently", "Monthly", "Weekly", "Daily"]
   }
 ]

@@ -1,0 +1,49 @@
+[
+  {
+    "title": "How do you want to interact with your therapist.?",
+    "type": "therapistDetails",
+    "options": ["Virtual", "Physical", "Any"]
+  },
+  {
+    "title": "Which gender would you prefer for your therapist?",
+    "type": "therapistDetails",
+    "options": ["Male", "Female", "Other", "Any"]
+  },
+
+  {
+    "title": "Which age category would you prefer for your therapist?",
+    "type": "therapistDetails",
+    "options": [
+      "Old(Above 40)",
+      "Adult(Between 30-40)",
+      "YoungAdult(Between 20-30)",
+      "Any"
+    ]
+  },
+  {
+    "title": "Which field would you prefer for your therapist to be specialized at?",
+    "type": "therapistDetails",
+    "queryType": "checkbox",
+    "options": [
+      "Any",
+      "Family",
+      "Addiction",
+      "Behaviour",
+      "Divorce",
+      "Child",
+      "Clinical",
+      "Cognitive",
+      "Cognitive-Behavioral",
+      "Eating-Disorder",
+      "Exercise",
+      "Youth",
+      "SocialWork",
+      "School",
+      "Trauma",
+      "Nutritional",
+      "Social",
+      "Dialect-Bheaviour",
+      "Psychodynamic"
+    ]
+  }
+]

@@ -89,7 +89,26 @@ export const SignUp = () => {
         )}
 
         {role === "" ? null : role === "User" ? (
-          <UserSignup />
+          <Flex
+            direction={"column"}
+            w="50%"
+            margin={"auto"}
+            marginBlockStart="15%"
+            gap={"2rem"}
+          >
+            <Heading textAlign={"center"}>
+              Please fill a short questionare before signing up
+            </Heading>
+            <Button
+              onClick={() => {
+                navigate("/query");
+              }}
+              variant="outline"
+              border={"1px solid black"}
+            >
+              Proceed
+            </Button>
+          </Flex>
         ) : (
           <TherapistSignup />
         )}
