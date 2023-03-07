@@ -1,13 +1,10 @@
-import { Box, Button, Grid, Input, Select, Text } from "@chakra-ui/react";
+import { Box, Button, Grid, Select, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import axios from "axios";
+
 import { put } from "../../services/middleware";
 import { useContext } from "react";
 import { User } from "../../data/loggedin";
 export const Rerecommend = (props) => {
-  const navigate = useNavigate();
   const [therapistDetails, setTherapistDetails] = useState({
     speciality: "",
     age: 0,
@@ -23,7 +20,6 @@ export const Rerecommend = (props) => {
       }),
     ]);
     if (res) {
-      console.log(res);
       props.setRecommend(false);
     }
   };

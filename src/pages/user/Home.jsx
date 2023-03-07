@@ -3,13 +3,13 @@ import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import React, { useCallback, useState } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
-import { Auth } from "../../data/auth";
+
 import { User } from "../../data/loggedin";
 import { get, post } from "../../services/middleware";
 import { Rerecommend } from "./Rereco";
 
 const UserHome = () => {
-  const { user, therapistAssigned, setTherapistAssigned } = useContext(User);
+  const { user, therapistAssigned } = useContext(User);
   const [therapist, setTherapist] = useState();
   const [algoTherapist, setAlgoTherapist] = useState();
   const [recommend, setRecommend] = useState(false);

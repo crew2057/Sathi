@@ -6,7 +6,6 @@ import {
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
-  Divider,
   Flex,
   Grid,
   GridItem,
@@ -14,8 +13,8 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
-import React, { useEffect, useRef } from "react";
-import NavBar from "../components/NavBar";
+import React from "react";
+
 import HomeGreen from "../assets/HomeGreen.svg";
 import Boy from "../assets/boy.svg";
 import girlGlass from "../assets/AvatarsGlasses.svg";
@@ -30,8 +29,7 @@ import CroodSitting from "../assets/CroodsSitting.svg";
 import CroodStanding from "../assets/CroodsStanding.svg";
 import Footer1 from "../assets/footer1.svg";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { Auth } from "../data/auth";
+
 const AccordionComp = (props) => {
   return (
     <AccordionItem padding={"0.5rem"}>
