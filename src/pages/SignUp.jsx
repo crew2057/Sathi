@@ -22,12 +22,10 @@ export const SignUp = () => {
       bgRepeat={"no-repeat"}
     >
       <Box
-        margin={"10rem"}
         boxShadow={"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px "}
         bg={"white"}
         w={"60%"}
-        marginTop={"5rem"}
-        minHeight={"70vh"}
+        minHeight={"50vh"}
         borderRadius={"1rem"}
         padding="1rem"
       >

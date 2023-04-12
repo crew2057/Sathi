@@ -1,4 +1,12 @@
-import { Box, Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Heading,
+  Input,
+  Text,
+} from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import HomeGreen from "../assets/HomeGreen.svg";
@@ -7,13 +15,175 @@ import { Auth } from "../data/auth";
 import queries from "../data/queries.json";
 import therapistQuery from "../data/therapistQ.json";
 export const Query = () => {
-  const [query, setQuery] = useState(0);
-  const [query2, setQuery2] = useState(0);
+  const [query, setQuery] = useState({
+    symptomQuery: 0,
+    query1: 0,
+    query2: 0,
+  });
   const [userDetails, setUserdetails] = useState([]);
   const [therapistDetails, setTherapistdetails] = useState([]);
+  const [symptoms, setSymptoms] = useState({
+    behaviour: 0,
+    sleep: 0,
+    apetite: 0,
+    concentration: 0,
+    physical: 0,
+    substanceUse: 0,
+    suicidal: 0,
+    hallucinations: 0,
+    anxiety: 0,
+    ocd: 0,
+    ptsd: 0,
+    eatingDisorder: 0,
+    personalityDisorder: 0,
+    psychoticDisorder: 0,
+    sexualDisorder: 0,
+  });
+  const symptomDiscriptor = [
+    {
+      key: "behaviour",
+      question:
+        "Are you experiencing any changes in mood or behavior:( feeling sad, anxious, irritable, or easily agitated; withdrawing from social situations or losing interest in activities you once enjoyed; feeling excessively worried or nervous; feeling excessively happy or excited for no apparent reason)?",
+    },
+    {
+      key: "sleep",
+      question:
+        "Are you experiencing any Sleep problems:( difficulty falling or staying asleep; waking up frequently during the night; sleeping too much or too little.)?",
+    },
+    {
+      key: "apetite",
+      question:
+        "Are you experiencing any Appetite changes: (experiencing a significant increase or decrease in your appetite; sudden weight loss or gain.)?",
+    },
+    {
+      key: "concentration",
+      question:
+        "Are you experiencing any Difficulty concentrating or making decisions: (having trouble concentrating, making decisions, or remembering things; feeling forgetful or disorganized.)?",
+    },
+    {
+      key: "physical",
+      question:
+        "Are you experiencing any Physical symptoms: (experiencing physical symptoms that may be related to your mental health, such as headaches, stomach problems, or fatigue; experiencing unexplained aches and pains.)?",
+    },
+    {
+      key: "substanceUse",
+      question:
+        "Are you experiencing any Substance use:( using drugs or alcohol to cope with your emotions; experiencing increased use of these substances.)?",
+    },
+    {
+      key: "suicidal",
+      question:
+        "Are you experiencing any Suicidal thoughts or behaviors:(experiencing thoughts of suicide or self-harm; engaging in behaviors that could be harmful to yourself or others.)?",
+    },
+    {
+      key: "hallucinations",
+      question:
+        "Are you experiencing any Delusions or hallucinations: (experiencing false beliefs or perceptions that are not based in reality; hearing or seeing things that are not there.)?",
+    },
+    {
+      key: "anxiety",
+      question:
+        "Are you experiencing any Anxiety disorders:(experiencing excessive worry or fear about a variety of situations; experiencing panic attacks.)?",
+    },
+    {
+      key: "ocd",
+      question:
+        "Are you experiencing any Obsessive-compulsive disorder (OCD): (experiencing intrusive thoughts or images that cause anxiety; performing repetitive behaviors or mental acts to reduce anxiety.)?",
+    },
+    {
+      key: "ptsd",
+      question:
+        "Are you experiencing any Post-traumatic stress disorder (PTSD):(experiencing flashbacks or nightmares related to a traumatic event; avoiding situations or stimuli that trigger memories of the trauma.)?",
+    },
+    {
+      key: "eatingDisorder",
+      question:
+        "Are you experiencing any Eating disorders: (experiencing significant changes in eating habits or weight; experiencing an intense fear of gaining weight or becoming overweight.)?",
+    },
+    {
+      key: "personalityDisorder",
+      question:
+        "Are you experiencing any Personality disorders:(experiencing difficulty regulating emotions or behavior; having a distorted sense of self or others.)?",
+    },
+    {
+      key: "psychoticDisorder",
+      question:
+        "Are you experiencing any Psychotic disorders: (experiencing a loss of touch with reality; experiencing delusions or hallucinations.)?",
+    },
+    {
+      key: "sexualDisorder",
+      question:
+        "Are you experiencing any Sexual disorders: (experiencing difficulties related to sexual functioning or desire.)?",
+    },
+  ];
 
-  const navigate = useNavigate();
-  console.log(userDetails, therapistDetails);
+  const renderSymptomQuery = () => {
+    const handleChange = (key, val) => {
+      setQuery({ ...query, symptomQuery: query.symptomQuery + 1 });
+      setSymptoms({ ...symptoms, [key]: val });
+    };
+    return symptomDiscriptor.map((discriptor, index) => {
+      return (
+        <Flex direction="column" gap="2rem" alignItems={"center"} w="100%">
+          <Box alignSelf={"start"}>
+            <Heading> {discriptor.question.split("(")[0]}</Heading>
+            <Text>{discriptor.question.split("(")[1]}</Text>
+          </Box>
+          <Button
+            variant={"outline"}
+            padding={" 2rem 3rem"}
+            fontSize={"2rem"}
+            borderRadius={"2rem"}
+            border={"2px solid black"}
+            onClick={() => handleChange(discriptor.key, 0)}
+          >
+            1.Not at all
+          </Button>
+          <Button
+            variant={"outline"}
+            padding={" 2rem 3rem"}
+            fontSize={"2rem"}
+            borderRadius={"2rem"}
+            border={"2px solid black"}
+            onClick={() => handleChange(discriptor.key, 0.25)}
+          >
+            2.Maybe a little{" "}
+          </Button>
+          <Button
+            variant={"outline"}
+            padding={" 2rem 3rem"}
+            fontSize={"2rem"}
+            borderRadius={"2rem"}
+            border={"2px solid black"}
+            onClick={() => handleChange(discriptor.key, 0.5)}
+          >
+            3.Often{" "}
+          </Button>
+          <Button
+            variant={"outline"}
+            padding={" 2rem 3rem"}
+            fontSize={"2rem"}
+            borderRadius={"2rem"}
+            border={"2px solid black"}
+            onClick={() => handleChange(discriptor.key, 0.75)}
+          >
+            4.More than often{" "}
+          </Button>
+          <Button
+            variant={"outline"}
+            padding={" 2rem 3rem"}
+            fontSize={"2rem"}
+            borderRadius={"2rem"}
+            border={"2px solid black"}
+            onClick={() => handleChange(discriptor.key, 1)}
+          >
+            5.Most of the time
+          </Button>
+        </Flex>
+      );
+    })[query.symptomQuery];
+  };
+
   const renderQuestion = () => {
     return (
       <>
@@ -24,89 +194,45 @@ export const Query = () => {
           paddingTop="2rem"
           w="100%"
         >
-          {query < queries.length ? (
-            <>
-              <Heading>
-                {query + 1}){queries[query].title}
-              </Heading>
+          <>
+            <Heading>{therapistQuery[query.query1].title}</Heading>
 
-              {queries[query].options.map((option, index) => {
-                return (
-                  <Button
-                    variant={"outline"}
-                    padding={" 2rem 3rem"}
-                    fontSize={"2rem"}
-                    borderRadius={"2rem"}
-                    border={"2px solid black"}
-                    onClick={() => {
-                      setUserdetails([
-                        ...userDetails,
-                        { [queries[query].title]: option },
-                      ]);
+            {therapistQuery[query.query1].options.map((option, index) => {
+              return (
+                <Button
+                  variant={"outline"}
+                  padding={" 2rem 3rem"}
+                  fontSize={"2rem"}
+                  borderRadius={"2rem"}
+                  border={"2px solid black"}
+                  onClick={() => {
+                    setTherapistdetails([
+                      ...therapistDetails,
+                      { [therapistQuery[query.query1].title]: option },
+                    ]);
 
-                      setQuery(query + 1);
-                    }}
-                  >
-                    {index + 1}) {option}
-                  </Button>
-                );
-              })}
-            </>
-          ) : (
-            <>
-              <Heading>
-                {query + 1}){therapistQuery[query2].title}
-              </Heading>
-
-              {therapistQuery[query2].options.map((option, index) => {
-                return (
-                  <Button
-                    variant={"outline"}
-                    padding={" 2rem 3rem"}
-                    fontSize={"2rem"}
-                    borderRadius={"2rem"}
-                    border={"2px solid black"}
-                    onClick={() => {
-                      setTherapistdetails([
-                        ...therapistDetails,
-                        { [therapistQuery[query2].title]: option },
-                      ]);
-
-                      setQuery(query + 1);
-                      setQuery2(query2 + 1);
-                    }}
-                  >
-                    {index + 1}) {option}
-                  </Button>
-                );
-              })}
-            </>
-          )}
-          {/* <Button
-            background="none"
-            padding={" 2rem 3rem"}
-            margin={"auto"}
-            fontSize={"2rem"}
-            borderRadius="1.5em"
-            bgColor={"#9fe7ab"}
-            color="white"
-            onClick={() => {
-              //   navigate("/ln/home");
-            }}
-          >
-            Proceed
-          </Button> */}
+                    setQuery({
+                      ...query,
+                      query1: query.query1 + 1,
+                    });
+                  }}
+                >
+                  {index + 1}) {option}
+                </Button>
+              );
+            })}
+          </>
         </Flex>
       </>
     );
   };
-  console.log(userDetails, therapistDetails);
+  console.log(userDetails, therapistDetails, symptoms);
   //   console.log(therapistQuery[0]);
   return (
     <Box
       display={"flex"}
-      alignItems="center"
-      flexDirection={"column"}
+      alignItems="top"
+      marginTop={"1rem"}
       gap="1rem"
       minH="100vh"
       bgImage={HomeGreen}
@@ -120,20 +246,24 @@ export const Query = () => {
         boxShadow={"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px "}
         bg={"white"}
         minW={"60%"}
-        minHeight={"70%"}
+        maxW="80%"
+        maxHeight={"80vh"}
+        overflowY="scroll"
         borderRadius={"1rem"}
         padding="3rem"
         paddingBottom={"7rem"}
-        marginBlock={"5rem"}
       >
-        {query < queries.length + therapistQuery.length ? (
+        {query.query1 < therapistQuery.length ? (
           <>
             <Heading>Find the right therapist for you</Heading>
             <Text>
               Fill this short questionnare so we can help you find the right
               therapist for you
             </Text>
-            {renderQuestion()}
+            <Divider />
+            {query.symptomQuery < Object.keys(symptoms).length
+              ? renderSymptomQuery()
+              : renderQuestion()}
           </>
         ) : (
           <>
@@ -144,12 +274,15 @@ export const Query = () => {
               Before we reccomend your therapist we would like you to signup
               such that we can provide you a better experience.
             </Text>
-            <UserSignup
-              data={{
-                user: userDetails,
-                therapist: therapistDetails,
-              }}
-            />
+            <Box marginTop={"3rem"}>
+              <UserSignup
+                data={{
+                  user: userDetails,
+                  symptoms: symptoms,
+                  therapist: therapistDetails,
+                }}
+              />
+            </Box>
           </>
         )}
       </Box>

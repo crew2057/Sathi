@@ -1,24 +1,39 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import {
   Box,
   Button,
   ButtonGroup,
   Flex,
   Heading,
-  Image,
   List,
   ListItem,
 } from "@chakra-ui/react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { User } from "../data/loggedin";
 import { logOut } from "../services/auth";
-
+import "./navbar.css";
 const NavBar = React.forwardRef((props, ref) => {
   const navigate = useNavigate();
   const { user, setUser } = useContext(User);
   const location = useLocation();
+  const nav = useRef(null);
+  useEffect(() => {
+    const event = (e) => {
+      if (window.scrollY !== 0) {
+        nav.current.style.position = "fixed";
+        nav.current.style.backgroundColor = "#e6ffcc";
+      } else {
+        nav.current.style.position = "";
+        nav.current.style.backgroundColor = "";
+      }
+    };
+    if (nav !== null) {
+      window.addEventListener("scroll", event);
+    }
+    return () => window.removeEventListener("scroll", event);
+  }, [nav]);
   return (
-    <Box pos={"fixed"} w="100vw" zIndex={100} bg="white ">
+    <Box ref={nav} id="nav" w="100vw" zIndex={100} bg="white ">
       <Flex justifyContent={"space-between"} padding="1rem">
         <Heading
           cursor={"pointer"}

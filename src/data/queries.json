@@ -17,37 +17,6 @@
     ]
   },
   {
-    "title": "How would you rate your current physical health?",
-    "type": "userDetails",
-    "options": ["Good", "Fair", "Poor"]
-  },
-  {
-    "title": "How would you rate your current eating habits?",
-    "type": "userDetails",
-    "options": ["Good", "Fair", "Poor"]
-  },
-  {
-    "title": "Are you currently experiencing overwhelming sadness, grief, or depression?",
-    "type": "userDetails",
-    "options": ["Yes", "No"]
-  },
-  {
-    "title": "Are you currently experiencing anxiety, panic attacks or have any phobias?",
-    "type": "userDetails",
-    "options": ["Yes", "No"]
-  },
-  {
-    "title": "Are you currently experiencing any chronic pain?",
-    "type": "userDetails",
-    "options": ["Yes", "No"]
-  },
-  {
-    "title": "Are you currently having Trouble relaxing",
-    "type": "userDetails",
-    "options": ["Yes", "No"]
-  },
-
-  {
     "title": "What led you to consider therapy today?",
     "queryType": "checkbox",
     "type": "userDetails",
@@ -124,45 +93,5 @@
       "More than half the days",
       "Nearly every day"
     ]
-  },
-  {
-    "title": "Trouble falling asleep, staying asleep, or sleeping too much.",
-    "type": "userDetails",
-    "options": [
-      "Not at all",
-      "Several Days",
-      "More than half the days",
-      "Nearly every day"
-    ]
-  },
-  {
-    "title": "Feeling tired or having little energy.",
-    "type": "userDetails",
-    "options": [
-      "Not at all",
-      "Several Days",
-      "More than half the days",
-      "Nearly every day"
-    ]
-  },
-  {
-    "title": "Poor appetite or overeating.",
-    "type": "userDetails",
-    "options": [
-      "Not at all",
-      "Several Days",
-      "More than half the days",
-      "Nearly every day"
-    ]
-  },
-  {
-    "title": "Do you have any problems or worries about intimacy?",
-    "type": "userDetails",
-    "options": ["Yes", "No"]
-  },
-  {
-    "title": "How often do you drink alcohol?",
-    "type": "userDetails",
-    "options": ["Never", "Infrequently", "Monthly", "Weekly", "Daily"]
   }
 ]

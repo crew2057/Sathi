@@ -32,7 +32,6 @@ export const TherapistSignup = () => {
   } = useForm();
   const navigate = useNavigate();
   const onSubmit = async (values) => {
-    console.log(values);
     if (terms) {
       const res = await post("http://localhost:5000/user/", {
         ...values,

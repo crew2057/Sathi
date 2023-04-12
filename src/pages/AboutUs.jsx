@@ -1,7 +1,8 @@
+import { Box } from "@chakra-ui/react";
 import React from "react";
 
 const AboutUs = () => {
-  return <div>AboutUs</div>;
+  return <Box>AboutUs</Box>;
 };
 
 export default AboutUs;

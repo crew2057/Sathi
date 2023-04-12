@@ -241,8 +241,6 @@ const Home = React.forwardRef((props, ref) => {
           bgImage={Footer1}
           bgPos={" -300px bottom"}
           bgSize="130vw"
-          zIndex={"-1"}
-          overflow="hidden"
           _before={{
             content: '""',
             position: "absolute",
@@ -265,7 +263,15 @@ const Home = React.forwardRef((props, ref) => {
           >
             Frequently Asked Questions
           </Heading>
-          <Box w="50%" id="faq" h={"80%"} margin={"auto"}>
+          <Box
+            w="50%"
+            id="faq"
+            h={"80%"}
+            zIndex={3}
+            isolation="isolate"
+            margin={"auto"}
+            overflowY={"scroll"}
+          >
             <Accordion allowMultiple>
               <AccordionComp
                 title={"What is Saathi?"}
@@ -329,14 +335,6 @@ const Home = React.forwardRef((props, ref) => {
                 title={"Can I stay anonymous?"}
                 content={
                   "When you sign up, we do not ask you for your full name or contact information but rather a 'nickname' created by you that will be used to identify you in the system. When you decide to start the therapy process, we will ask you for your contact information for emergency situations, such as if your therapist believes that you or someone else might be in danger. Your therapist may also request additional information about you when it is required by their licensing board guidelines. All of this data is protected by the confidentiality requirements of the therapist’s board and licensure."
-                }
-              />
-              <AccordionComp
-                title={
-                  "Who are Sathi therapists? or what kinds of therapist work at Sathi?"
-                }
-                content={
-                  "All the therapists on Sathi are professionals working across the Nepal. They all hold at least master’s degrees or above. They are all independent professionals who are licensed with most of the following requirements fulfilled: a master’s degree or above, a practicum or internship, standardized exams, and 2000 hours of supervised counseling experience."
                 }
               />
               <AccordionComp

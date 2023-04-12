@@ -9,7 +9,6 @@
     "type": "therapistDetails",
     "options": ["Male", "Female", "Other", "Any"]
   },
-
   {
     "title": "Which age category would you prefer for your therapist?",
     "type": "therapistDetails",

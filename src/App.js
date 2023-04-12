@@ -18,7 +18,7 @@ import { SignUp } from "./pages/SignUp";
 import { getBearerToken } from "./services/auth";
 import "./App.css";
 function App() {
-  const { auth, setAuth } = useContext(Auth);
+  const { setAuth } = useContext(Auth);
   const [loading, setLoading] = useState(true);
   const ref = useRef(null);
   useEffect(() => {

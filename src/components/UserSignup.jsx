@@ -15,15 +15,10 @@ export const UserSignup = (props) => {
 
   const onSubmit = async (values) => {
     console.log(values);
-    console.log(props.data.therapist, props.data.user);
+    console.log(props.data.therapist, props.data.user, props.data.symptoms);
     const res = await post("http://localhost:5000/user/", {
       ...values,
-      userInfo: props.data.user.map((user) => {
-        return {
-          question: Object.keys(user)[0],
-          answer: Object.values(user)[0],
-        };
-      }),
+      userSymptoms: props.data.symptoms,
       therapistDetails: {
         communicationType: Object.values(props?.data.therapist[0])[0],
         gender: Object.values(props?.data.therapist[1])[0],
@@ -97,23 +92,7 @@ export const UserSignup = (props) => {
               <option value={"other"}>Other</option>
             </Select>
           </Box>
-          <Box
-            border="1px solid black"
-            borderRadius="1.5rem"
-            w="75%"
-            margin={"auto"}
-            padding="0.3em 2em 0.5em 0.5em"
-          >
-            <Text fontSize="1rem">Address</Text>
-            <Input
-              padding="0"
-              fontSize="0.9rem"
-              placeholder="Enter Address"
-              focusBorderColor="transparent"
-              border="none"
-              {...register("address")}
-            ></Input>
-          </Box>
+
           <Box
             border="1px solid black"
             borderRadius="1.5rem"
@@ -132,24 +111,7 @@ export const UserSignup = (props) => {
               {...register("email")}
             ></Input>
           </Box>
-          <Box
-            border="1px solid black"
-            borderRadius="1.5rem"
-            w="75%"
-            margin={"auto"}
-            padding="0.3em 2em 0.5em 0.5em"
-          >
-            <Text fontSize="1rem">Phone No</Text>
-            <Input
-              padding="0"
-              fontSize="0.9rem"
-              placeholder="Enter Phone Number"
-              focusBorderColor="transparent"
-              border="none"
-              type={"number"}
-              {...register("phoneno")}
-            ></Input>
-          </Box>
+
           <Box
             border="1px solid black"
             borderRadius="1.5rem"

@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
 
 import React, { useCallback, useState } from "react";
 import { useEffect } from "react";
@@ -7,7 +7,8 @@ import { useContext } from "react";
 import { User } from "../../data/loggedin";
 import { get, post } from "../../services/middleware";
 import { Rerecommend } from "./Rereco";
-
+import Boy from "../../assets/boy.svg";
+import girlGlass from "../../assets/AvatarsGlasses.svg";
 const UserHome = () => {
   const { user, therapistAssigned } = useContext(User);
   const [therapist, setTherapist] = useState();
@@ -85,8 +86,8 @@ const UserHome = () => {
 
   if (recommend) {
     return (
-      <Box marginTop={"10rem"}>
-        <Heading marginLeft={"10rem"}>Re-Recommend Therapist</Heading>
+      <Box>
+        <Heading>Re-Recommend Therapist</Heading>
         <Rerecommend recommend={recommend} setRecommend={setRecommend} />
       </Box>
     );
@@ -95,7 +96,7 @@ const UserHome = () => {
     <div>
       {!therapistAssigned ? (
         error.algo.message === "" || error.query.message === "" ? (
-          <Box marginTop={"10rem"} marginInline="5rem">
+          <Box marginInline="5rem">
             <Flex gap={"2rem"} marginBottom={"5rem"}>
               <Box
                 border={"5px green solid"}
@@ -128,7 +129,7 @@ const UserHome = () => {
                   </>
                 ) : (
                   <Box>
-                    <Heading marginTop={"10rem"}>{error.query.message}</Heading>
+                    <Heading>{error.query.message}</Heading>
                     <Button
                       onClick={() => {
                         setRecommend(true);
@@ -175,7 +176,7 @@ const UserHome = () => {
                   </>
                 ) : (
                   <Box>
-                    <Heading marginTop={"10rem"}>{error.algo.message}</Heading>
+                    <Heading >{error.algo.message}</Heading>
                     <Button
                       onClick={() => {
                         setRecommend(true);
@@ -201,7 +202,7 @@ const UserHome = () => {
           </Box>
         ) : (
           <Box>
-            <Heading marginTop={"10rem"}>{error}</Heading>
+            <Heading>{error}</Heading>
             <Button
               onClick={() => {
                 setRecommend(true);
@@ -213,11 +214,53 @@ const UserHome = () => {
           </Box>
         )
       ) : (
-        <Box marginTop={"10rem"} marginLeft={"10rem"}>
-          <Heading>Therapist assigned</Heading>
-          <Text fontWeight={"bold"}>Name:{therapist?.fullName}</Text>
-          <Text fontWeight={"bold"}>Gender:{therapist?.gender}</Text>
-          <Text fontWeight={"bold"}>Age:{therapist?.age}</Text>
+        <Box w={"80%"} margin="auto" marginTop={"2rem"}>
+          <Heading>
+            Your{" "}
+            <Box as="span" color={"#7CC35B"}>
+              Saathi
+            </Box>{" "}
+            to help guide you through your problems
+          </Heading>
+          <Box
+            display={"flex"}
+            marginTop={"1rem"}
+            borderRadius="1rem"
+            minH="50vh"
+            maxH="70vh"
+            padding="2rem"
+            boxShadow={"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px "}
+          >
+            <Flex display={"column"} alignContent="center">
+              <Box>
+                {therapist?.gender === "male" ? (
+                  <Image src={Boy} />
+                ) : (
+                  <Image src={girlGlass} />
+                )}
+              </Box>
+              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
+                Name:{therapist?.fullName}
+              </Text>
+            </Flex>
+            <Box padding={"2rem"}>
+              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
+                Gender:{therapist?.gender}
+              </Text>
+              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
+                Age:{therapist?.age}
+              </Text>
+              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
+                Phone number:{therapist?.age}
+              </Text>
+              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
+                Mode of Communication:{therapist?.communication}
+              </Text>
+              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
+                Discription:{therapist?.communication}
+              </Text>
+            </Box>
+          </Box>
         </Box>
       )}
     </div>
