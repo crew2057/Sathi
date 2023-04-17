@@ -47,31 +47,70 @@ export const TherapistSignup = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Box w={"100%"}>
         <Flex marginTop={"2rem"}>
-          <Box w={"25%"} borderEnd="1px solid black">
+          <Box
+            w={"30%"}
+            h="70vh "
+            overflowY={"scroll"}
+            borderEnd="1px solid black"
+            pos={"relative"}
+          >
             <Heading fontSize={"1.5rem"}>Terms & Condition</Heading>
+            <Text fontWeight={"bold"}>Scroll to read all :</Text>
             <OrderedList spacing={"1rem"}>
               <ListItem>
-                .sjdahkjsdhakjsdhakjhdkajsdhkajsdhaksj akjshdjakshd jkahsdjk
-                hasjk hdsjka hjkashkjahskj hjk h ahsjkd hakjsdh akjsjk hasd
+                Eligibility: Only licensed and qualified therapists are
+                permitted to sign up and use our mental health website for the
+                purpose of providing therapy services to clients.
               </ListItem>
               <ListItem>
-                .sjdahkjsdhakjsdhakjhdkajsdhkajsdhaksj akjshdjakshd jkahsdjk
-                hasjk hdsjka hjkashkjahskj hjk h ahsjkd hakjsdh akjsjk hasd
+                Professional Standards: Therapists must adhere to the highest
+                standards of professionalism, ethics, and conduct in accordance
+                with their respective governing body and industry best
+                practices.
               </ListItem>
               <ListItem>
-                .sjdahkjsdhakjsdhakjhdkajsdhkajsdhaksj akjshdjakshd jkahsdjk
-                hasjk hdsjka hjkashkjahskj hjk h ahsjkd hakjsdh akjsjk hasd
+                Privacy and Confidentiality: Therapists are required to maintain
+                the highest levels of client confidentiality and privacy at all
+                times in accordance with applicable laws and regulations. They
+                must also adhere to the website's privacy policy and terms of
+                use.
               </ListItem>
               <ListItem>
-                .sjdahkjsdhakjsdhakjhdkajsdhkajsdhaksj akjshdjakshd jkahsdjk
-                hasjk hdsjka hjkashkjahskj hjk h ahsjkd hakjsdh akjsjk hasd
+                Scope of Services: Therapists may only provide therapy services
+                that are within the scope of their license, training, and
+                experience. They may not provide medical advice, prescribe
+                medications, or engage in any other activity that falls outside
+                of their professional scope of practice.
               </ListItem>
               <ListItem>
-                .sjdahkjsdhakjsdhakjhdkajsdhkajsdhaksj akjshdjakshd jkahsdjk
-                hasjk hdsjka hjkashkjahskj hjk h ahsjkd hakjsdh akjsjk hasd
+                Client Rights: Therapists must respect and uphold the rights of
+                clients at all times, including their right to informed consent,
+                autonomy, and confidentiality. They must also respect the
+                diversity of clients and provide services in a culturally
+                sensitive and inclusive manner.
+              </ListItem>
+              <ListItem>
+                Payment and Fees: Therapists must be transparent and accurate in
+                their billing and payment practices. They may not charge clients
+                for services that were not provided or engage in any other
+                fraudulent or unethical billing practices.
+              </ListItem>
+              <ListItem>
+                Communication: Therapists must maintain professional
+                communication with clients at all times, including through the
+                website's messaging system. They may not engage in any form of
+                inappropriate or unprofessional communication, including but not
+                limited to harassment, discrimination, or boundary violations.
+              </ListItem>
+              <ListItem>
+                Termination of Services: Therapists may terminate their services
+                with clients at any time for any reason, provided they follow
+                all applicable laws and regulations and provide adequate notice
+                and referrals to alternative providers.
               </ListItem>
             </OrderedList>
           </Box>
+
           <Box w="75%">
             <Box
               border="1px solid black"
@@ -315,23 +354,29 @@ export const TherapistSignup = () => {
               >
                 I have read the terms and conditions and agree them.
               </Checkbox>
+              <Text>
+                {" "}
+                By signing up and using our mental health website, you agree to
+                abide by these terms and conditions and any applicable laws and
+                regulations. Failure to comply with these terms and conditions
+                may result in suspension or termination of your account and
+                legal action where appropriate.
+              </Text>
             </FormControl>
+            <Button
+              padding={"1.5rem 2rem"}
+              marginTop="2rem"
+              marginLeft={"1rem"}
+              borderRadius="1.5em"
+              bgColor={"#9fe7ab"}
+              fontSize={"1.5rem"}
+              color="white"
+              type="submit"
+            >
+              Sign up
+            </Button>
           </Box>
         </Flex>
-
-        <Button
-          padding={"1.5rem 2rem"}
-          marginTop={"2rem"}
-          marginLeft="45%"
-          marginBottom={"3rem"}
-          borderRadius="1.5em"
-          bgColor={"#9fe7ab"}
-          fontSize={"1.5rem"}
-          color="white"
-          type="submit"
-        >
-          Sign up
-        </Button>
       </Box>
     </form>
   );

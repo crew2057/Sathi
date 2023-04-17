@@ -9,8 +9,9 @@ import { get, post } from "../../services/middleware";
 import { Rerecommend } from "./Rereco";
 import Boy from "../../assets/boy.svg";
 import girlGlass from "../../assets/AvatarsGlasses.svg";
+import UserCard from "../../components/user";
 const UserHome = () => {
-  const { user, therapistAssigned } = useContext(User);
+  const { user, therapistAssigned, setTherapistAssigned } = useContext(User);
   const [therapist, setTherapist] = useState();
   const [algoTherapist, setAlgoTherapist] = useState();
   const [recommend, setRecommend] = useState(false);
@@ -39,7 +40,8 @@ const UserHome = () => {
         setTherapist(query.data.recommendedTherapist);
       }
       if (algorithm) {
-        setAlgoTherapist(algorithm.data.bestTherapist);
+        console.log(algorithm.data);
+        setAlgoTherapist(algorithm.data.therapistFromSymptoms);
       }
 
       // if (algorithm.status !== 200) {
@@ -56,14 +58,23 @@ const UserHome = () => {
     }
   }, [user.id]);
 
-  const assign = async () => {
-    if (therapist._id) {
+  const assign = async (val) => {
+    if (val === "query" && therapist._id) {
       const res = await post("/user/assign", {
         therapistId: therapist._id,
         id: user.id,
       });
       if (res) {
-        console.log(res);
+        setTherapistAssigned(true);
+      }
+    }
+    if (val === "algo" && algoTherapist._id) {
+      const res = await post("/user/assign", {
+        therapistId: algoTherapist._id,
+        id: user.id,
+      });
+      if (res) {
+        setTherapistAssigned(true);
       }
     }
   };
@@ -85,47 +96,43 @@ const UserHome = () => {
   }, [init, therapistAssigned, recommend, getAssigned]);
 
   if (recommend) {
-    return (
-      <Box>
-        <Heading>Re-Recommend Therapist</Heading>
-        <Rerecommend recommend={recommend} setRecommend={setRecommend} />
-      </Box>
-    );
+    return <Rerecommend recommend={recommend} setRecommend={setRecommend} />;
   }
   return (
     <div>
       {!therapistAssigned ? (
         error.algo.message === "" || error.query.message === "" ? (
-          <Box marginInline="5rem">
-            <Flex gap={"2rem"} marginBottom={"5rem"}>
+          <Box marginInline={"1rem"}>
+            <Flex gap={"2rem"}>
               <Box
-                border={"5px green solid"}
+                border={"5px black solid"}
                 borderRadius={"10px"}
                 padding="1rem"
                 display={"flex"}
                 gap="2rem"
+                w={"50%"}
                 flexDirection={"column"}
                 alignContent="center"
               >
                 {error.query.message === "" ? (
                   <>
                     <Heading>
-                      Therapist recommended from Query Based Approach{" "}
+                      Your{" "}
+                      <Box as="span" color={"#7CC35B"}>
+                        Saathi{" "}
+                      </Box>
+                      that we recommend you to your preferences
                     </Heading>
                     <Text fontSize={"1.2rem"} fontWeight={"bold"}>
                       Name:{therapist?.fullName}
                     </Text>
-                    <Text fontSize={"1.2rem"} fontWeight={"bold"}>
-                      Gender:{therapist?.gender}
-                    </Text>
-                    <Text fontSize={"1.2rem"} fontWeight={"bold"}>
-                      Age:{therapist?.age}
-                    </Text>
+
                     <Text fontSize={"1.2rem"} fontWeight={"bold"}>
                       Speciality:{therapist?.therapistDetails.speciality}
                     </Text>
+                    <UserCard data={therapist} />
 
-                    <Button onClick={assign}>Proceed</Button>
+                    <Button onClick={() => assign("query")}>Proceed</Button>
                   </>
                 ) : (
                   <Box>
@@ -144,10 +151,11 @@ const UserHome = () => {
                   </Box>
                 )}
               </Box>
-              {/* <Box
+              <Box
                 border={"5px black solid"}
                 borderRadius={"10px"}
                 padding="1rem"
+                w={"50%"}
                 display={"flex"}
                 gap="2rem"
                 flexDirection={"column"}
@@ -156,27 +164,28 @@ const UserHome = () => {
                 {error.algo.message === "" ? (
                   <>
                     <Heading>
-                      Therapist recommended from Content Based Filtering
-                      Algorithm
+                      Your{" "}
+                      <Box as="span" color={"#7CC35B"}>
+                        Saathi
+                      </Box>{" "}
+                      we recommend you to your preferences and similar{" "}
+                      <Box as="span" color={"#7CC35B"}>
+                        Saathi's
+                      </Box>
                     </Heading>
                     <Text fontSize={"1.2rem"} fontWeight={"bold"}>
                       Name:{algoTherapist?.fullName}
                     </Text>
-                    <Text fontSize={"1.2rem"} fontWeight={"bold"}>
-                      Gender:{algoTherapist?.gender}
-                    </Text>
-                    <Text fontSize={"1.2rem"} fontWeight={"bold"}>
-                      Age:{algoTherapist?.age}
-                    </Text>
+
                     <Text fontSize={"1.2rem"} fontWeight={"bold"}>
                       Speciality:{algoTherapist?.therapistDetails.speciality}
                     </Text>
-
-                    <Button onClick={assign}>Proceed</Button>
+                    <UserCard data={algoTherapist} />
+                    <Button onClick={() => assign("algo")}>Proceed</Button>
                   </>
                 ) : (
                   <Box>
-                    <Heading >{error.algo.message}</Heading>
+                    <Heading>{error.algo.message}</Heading>
                     <Button
                       onClick={() => {
                         setRecommend(true);
@@ -190,9 +199,19 @@ const UserHome = () => {
                     </Button>
                   </Box>
                 )}
-              </Box> */}
+              </Box>
             </Flex>
+            <Text fontWeight={"bold"}>
+              Do you not like the therapist recommended to you and want to
+              change your preferences?
+            </Text>
+            <Text>
+              Please click the button below to so we can redirect you to
+              preference selection such that we can recommend you another
+              therapist.
+            </Text>
             <Button
+              colorScheme={"teal"}
               onClick={() => {
                 setRecommend(true);
               }}
@@ -251,7 +270,7 @@ const UserHome = () => {
                 Age:{therapist?.age}
               </Text>
               <Text fontSize={"1.3rem"} fontWeight={"bold"}>
-                Phone number:{therapist?.age}
+                Phone number:{therapist?.phoneno}
               </Text>
               <Text fontSize={"1.3rem"} fontWeight={"bold"}>
                 Mode of Communication:{therapist?.communication}

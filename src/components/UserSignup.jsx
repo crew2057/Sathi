@@ -135,7 +135,7 @@ export const UserSignup = (props) => {
           padding={"1.5rem 2rem"}
           marginTop={"2rem"}
           marginLeft="45%"
-          marginBottom={"3rem"}
+          marginBottom={""}
           borderRadius="1.5em"
           bgColor={"#9fe7ab"}
           fontSize={"1.5rem"}

@@ -47,13 +47,7 @@ export const SignUp = () => {
           {role} SignUp
         </Heading>
         {role === "" && (
-          <Flex
-            direction="column"
-            gap="2rem"
-            alignItems={"center"}
-            marginTop={"10rem"}
-            w="100%"
-          >
+          <Flex direction="column" gap="2rem" alignItems={"center"} w="100%">
             <Heading>Who do you want to register as?</Heading>
             <Button
               background="none"
@@ -91,7 +85,7 @@ export const SignUp = () => {
             direction={"column"}
             w="50%"
             margin={"auto"}
-            marginBlockStart="15%"
+            marginTop="1rem"
             gap={"2rem"}
           >
             <Heading textAlign={"center"}>

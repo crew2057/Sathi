@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Select, Text } from "@chakra-ui/react";
+import { Box, Button, Grid, Heading, Select, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 
 import { put } from "../../services/middleware";
@@ -24,8 +24,20 @@ export const Rerecommend = (props) => {
     }
   };
   return (
-    <form onSubmit={(e) => onSubmit(e)}>
-      <Box w={"100%"}>
+    <form
+      onSubmit={(e) => onSubmit(e)}
+      style={{
+        padding: "1rem",
+      }}
+    >
+      <Heading>
+        Please select your preferences such that we can recommend you your{"  "}
+        <Box as="span" color={"#7CC35B"}>
+          Saathi
+        </Box>
+      </Heading>
+
+      <Box w={"100%"} marginTop="2rem">
         <Grid templateColumns={"1fr"} gap="1rem">
           <Box
             border="1px solid black"

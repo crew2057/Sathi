@@ -124,7 +124,7 @@ export const Query = () => {
     };
     return symptomDiscriptor.map((discriptor, index) => {
       return (
-        <Flex direction="column" gap="2rem" alignItems={"center"} w="100%">
+        <Flex direction="column" gap="1rem" alignItems={"center"} w="100%">
           <Box alignSelf={"start"}>
             <Heading> {discriptor.question.split("(")[0]}</Heading>
             <Text>{discriptor.question.split("(")[1]}</Text>
@@ -231,8 +231,7 @@ export const Query = () => {
   return (
     <Box
       display={"flex"}
-      alignItems="top"
-      marginTop={"1rem"}
+      marginTop={"3rem"}
       gap="1rem"
       minH="100vh"
       bgImage={HomeGreen}
@@ -250,8 +249,7 @@ export const Query = () => {
         maxHeight={"80vh"}
         overflowY="scroll"
         borderRadius={"1rem"}
-        padding="3rem"
-        paddingBottom={"7rem"}
+        padding="2rem"
       >
         {query.query1 < therapistQuery.length ? (
           <>
@@ -260,7 +258,7 @@ export const Query = () => {
               Fill this short questionnare so we can help you find the right
               therapist for you
             </Text>
-            <Divider />
+            <Divider marginTop={"1rem"} />
             {query.symptomQuery < Object.keys(symptoms).length
               ? renderSymptomQuery()
               : renderQuestion()}

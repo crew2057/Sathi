@@ -10,7 +10,7 @@ const UserContext = ({ children }) => {
     id: 0,
     role: "",
   });
-  const [therapistAssigned, setTherpistAssigned] = useState(false);
+  const [therapistAssigned, setTherapistAssigned] = useState(false);
   const init = async () => {
     let id = localStorage.getItem("userId");
     const res = await get(`/user/${id}`);
@@ -26,9 +26,9 @@ const UserContext = ({ children }) => {
         res.data.user.therapistAssigned !== undefined &&
         res.data.user.therapistAssigned !== ""
       ) {
-        setTherpistAssigned(true);
+        setTherapistAssigned(true);
       } else {
-        setTherpistAssigned(false);
+        setTherapistAssigned(false);
       }
     }
   };
@@ -40,7 +40,7 @@ const UserContext = ({ children }) => {
 
   return (
     <User.Provider
-      value={{ user, setUser, therapistAssigned, setTherpistAssigned }}
+      value={{ user, setUser, therapistAssigned, setTherapistAssigned }}
     >
       {children}
     </User.Provider>
