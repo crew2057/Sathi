@@ -62,6 +62,7 @@ export const Rerecommend = (props) => {
             >
               <option value={""}>Select Speciality</option>
 
+              <option value={"Any"}>Any</option>
               <option value={"Family"}>Family</option>
               <option value={"Addiction"}>Addiction</option>
               <option value={"Behaviour"}>Behaviour</option>
@@ -131,7 +132,7 @@ export const Rerecommend = (props) => {
               onChange={(e) => {
                 setTherapistDetails({
                   ...therapistDetails,
-                  gender: e.target.value,
+                  communicationType: e.target.value,
                 });
               }}
             >

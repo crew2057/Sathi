@@ -3,17 +3,16 @@ import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import React, { useCallback, useState } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
-
 import { User } from "../../data/loggedin";
 import { get, post } from "../../services/middleware";
 import { Rerecommend } from "./Rereco";
 import Boy from "../../assets/boy.svg";
 import girlGlass from "../../assets/AvatarsGlasses.svg";
-import UserCard from "../../components/user";
+
 const UserHome = () => {
   const { user, therapistAssigned, setTherapistAssigned } = useContext(User);
   const [therapist, setTherapist] = useState();
-  const [algoTherapist, setAlgoTherapist] = useState();
+  const [algoTherapist, setAlgoTherapist] = useState([]);
   const [recommend, setRecommend] = useState(false);
   const [error, setErrorr] = useState({
     query: { message: "" },
@@ -21,13 +20,7 @@ const UserHome = () => {
   });
   const init = useCallback(async () => {
     if (user.id) {
-      const [query, algorithm] = await Promise.all([
-        get(`/user/recommend/${user.id}`).catch((err) => {
-          setErrorr((e) => ({
-            ...e,
-            query: { message: err.response.data.message },
-          }));
-        }),
+      const [algorithm] = await Promise.all([
         get(`/user/recommendByAlgo/${user.id}`).catch((err) => {
           setErrorr((e) => ({
             ...e,
@@ -36,29 +29,14 @@ const UserHome = () => {
         }),
       ]);
 
-      if (query) {
-        setTherapist(query.data.recommendedTherapist);
-      }
       if (algorithm) {
-        console.log(algorithm.data);
+        setTherapist(algorithm.data.therapistToOurPreferences);
         setAlgoTherapist(algorithm.data.therapistFromSymptoms);
       }
-
-      // if (algorithm.status !== 200) {
-      //   setErrorr({
-      //     message: algorithm.data.message,
-      //     origin: "algorithm",
-      //   });
-      // } else {
-      //   setErrorr({
-      //     message: query.data.message,
-      //     origin: "query",
-      //   });
-      // }
     }
   }, [user.id]);
 
-  const assign = async (val) => {
+  const assign = async (val, therap) => {
     if (val === "query" && therapist._id) {
       const res = await post("/user/assign", {
         therapistId: therapist._id,
@@ -68,9 +46,9 @@ const UserHome = () => {
         setTherapistAssigned(true);
       }
     }
-    if (val === "algo" && algoTherapist._id) {
+    if (val === "algo") {
       const res = await post("/user/assign", {
-        therapistId: algoTherapist._id,
+        therapistId: therap._id,
         id: user.id,
       });
       if (res) {
@@ -79,13 +57,13 @@ const UserHome = () => {
     }
   };
   const getAssigned = useCallback(async () => {
-    if (user.id) {
+    if (user.id && !recommend) {
       const res = await Promise.all([get(`/user/therapist/${user.id}`)]);
       if (res) {
         setTherapist(res[0].data);
       }
     }
-  }, [user.id]);
+  }, [user.id, recommend]);
 
   useEffect(() => {
     if (!therapistAssigned && !recommend) {
@@ -99,129 +77,168 @@ const UserHome = () => {
     return <Rerecommend recommend={recommend} setRecommend={setRecommend} />;
   }
   return (
-    <div>
+    <Box
+      w="100%"
+      minH={"95vh"}
+      bgPos={"center 300px"}
+      bgSize="cover"
+      bgRepeat={"no-repeat"}
+      overflowY="hidden"
+    >
       {!therapistAssigned ? (
         error.algo.message === "" || error.query.message === "" ? (
           <Box marginInline={"1rem"}>
-            <Flex gap={"2rem"}>
+            <Flex gap={"2rem"} w="100%">
               <Box
-                border={"5px black solid"}
                 borderRadius={"10px"}
                 padding="1rem"
                 display={"flex"}
                 gap="2rem"
-                w={"50%"}
+                w="80%"
+                margin={"auto"}
                 flexDirection={"column"}
                 alignContent="center"
               >
-                {error.query.message === "" ? (
-                  <>
-                    <Heading>
-                      Your{" "}
-                      <Box as="span" color={"#7CC35B"}>
-                        Saathi{" "}
+                <>
+                  <Heading>
+                    Your{" "}
+                    <Box as="span" color={"#7CC35B"}>
+                      Saathi{" "}
+                    </Box>
+                    that we recommend you to your preferences
+                  </Heading>
+
+                  {/* <UserCard data={therapist} /> */}
+                  <Box
+                    display={"flex"}
+                    marginTop={"1rem"}
+                    borderRadius="1rem"
+                    padding="2rem"
+                    boxShadow={"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px "}
+                  >
+                    <Flex display={"column"}>
+                      <Box>
+                        {therapist?.gender === "male" ? (
+                          <Image src={Boy} h="15rem" />
+                        ) : (
+                          <Image src={girlGlass} h="15rem" />
+                        )}
                       </Box>
-                      that we recommend you to your preferences
-                    </Heading>
-                    <Text fontSize={"1.2rem"} fontWeight={"bold"}>
-                      Name:{therapist?.fullName}
-                    </Text>
+                      <Text fontSize={"1.2rem"} fontWeight={"bold"}>
+                        Name:{therapist?.fullName}
+                      </Text>
+                    </Flex>
 
-                    <Text fontSize={"1.2rem"} fontWeight={"bold"}>
-                      Speciality:{therapist?.therapistDetails.speciality}
-                    </Text>
-                    <UserCard data={therapist} />
-
-                    <Button onClick={() => assign("query")}>Proceed</Button>
-                  </>
-                ) : (
-                  <Box>
-                    <Heading>{error.query.message}</Heading>
+                    <Box padding={"2rem"}>
+                      <Text fontSize={"1.2rem"} fontWeight={"bold"}>
+                        Speciality:{therapist?.therapistDetails.speciality}
+                      </Text>
+                      <Text fontSize={"1.3rem"} fontWeight={"bold"}>
+                        User Name:{therapist?.username}
+                      </Text>
+                      <Text fontSize={"1.3rem"} fontWeight={"bold"}>
+                        Gender:{therapist?.gender}
+                      </Text>
+                      <Text fontSize={"1.3rem"} fontWeight={"bold"}>
+                        Age:{therapist?.age}
+                      </Text>
+                      <Text fontSize={"1.3rem"} fontWeight={"bold"}>
+                        Patients handled:{therapist?.usersAssigned.length}
+                      </Text>
+                    </Box>
                     <Button
-                      onClick={() => {
-                        setRecommend(true);
-                        setErrorr({
-                          query: { message: "" },
-                          algo: { message: "" },
-                        });
-                      }}
+                      colorScheme={"teal"}
+                      alignSelf="end"
+                      marginLeft="auto"
+                      onClick={() => assign("query", 0)}
                     >
-                      re-recommend
+                      Proceed
                     </Button>
                   </Box>
-                )}
-              </Box>
-              <Box
-                border={"5px black solid"}
-                borderRadius={"10px"}
-                padding="1rem"
-                w={"50%"}
-                display={"flex"}
-                gap="2rem"
-                flexDirection={"column"}
-                alignContent="center"
-              >
-                {error.algo.message === "" ? (
-                  <>
-                    <Heading>
-                      Your{" "}
-                      <Box as="span" color={"#7CC35B"}>
-                        Saathi
-                      </Box>{" "}
-                      we recommend you to your preferences and similar{" "}
-                      <Box as="span" color={"#7CC35B"}>
-                        Saathi's
-                      </Box>
-                    </Heading>
-                    <Text fontSize={"1.2rem"} fontWeight={"bold"}>
-                      Name:{algoTherapist?.fullName}
-                    </Text>
+                  {algoTherapist.length > 0 && (
+                    <Box>
+                      <Heading>Similar therapists you can check</Heading>
+                      {algoTherapist.map((thera, index) => {
+                        return (
+                          <Box
+                            display={"flex"}
+                            marginTop={"1rem"}
+                            borderRadius="1rem"
+                            padding="2rem"
+                            key={index}
+                            boxShadow={
+                              "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px "
+                            }
+                          >
+                            <Flex display={"column"}>
+                              <Box>
+                                {thera?.gender === "male" ? (
+                                  <Image src={Boy} h="10rem" />
+                                ) : (
+                                  <Image src={girlGlass} h="10rem" />
+                                )}
+                              </Box>
+                              <Text fontSize={"1.2rem"} fontWeight={"bold"}>
+                                Name:{thera?.fullName}
+                              </Text>
+                            </Flex>
 
-                    <Text fontSize={"1.2rem"} fontWeight={"bold"}>
-                      Speciality:{algoTherapist?.therapistDetails.speciality}
-                    </Text>
-                    <UserCard data={algoTherapist} />
-                    <Button onClick={() => assign("algo")}>Proceed</Button>
-                  </>
-                ) : (
-                  <Box>
-                    <Heading>{error.algo.message}</Heading>
-                    <Button
-                      onClick={() => {
-                        setRecommend(true);
-                        setErrorr({
-                          query: { message: "" },
-                          algo: { message: "" },
-                        });
-                      }}
-                    >
-                      re-recommend
-                    </Button>
-                  </Box>
-                )}
+                            <Box padding={"2rem"}>
+                              <Text fontSize={"1.2rem"} fontWeight={"bold"}>
+                                Speciality:
+                                {thera?.therapistDetails.speciality}
+                              </Text>
+                              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
+                                User Name:{thera?.username}
+                              </Text>
+                              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
+                                Gender:{thera?.gender}
+                              </Text>
+                              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
+                                Age:{thera?.age}
+                              </Text>
+                              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
+                                Patients handled:{thera?.usersAssigned.length}
+                              </Text>
+                            </Box>
+                            <Button
+                              colorScheme={"teal"}
+                              alignSelf="end"
+                              marginLeft="auto"
+                              onClick={() => assign("algo", thera)}
+                            >
+                              Proceed
+                            </Button>
+                          </Box>
+                        );
+                      })}
+                    </Box>
+                  )}
+                  <Text fontWeight={"bold"}>
+                    Do you not like the therapist recommended to you and want to
+                    change your preferences?
+                  </Text>
+                  <Text>
+                    Please click the button below to so we can redirect you to
+                    preference selection such that we can recommend you another
+                    therapist.
+                  </Text>
+                  <Button
+                    colorScheme={"orange"}
+                    w="30%"
+                    onClick={() => {
+                      setRecommend(true);
+                    }}
+                  >
+                    re-recommend
+                  </Button>
+                </>
               </Box>
             </Flex>
-            <Text fontWeight={"bold"}>
-              Do you not like the therapist recommended to you and want to
-              change your preferences?
-            </Text>
-            <Text>
-              Please click the button below to so we can redirect you to
-              preference selection such that we can recommend you another
-              therapist.
-            </Text>
-            <Button
-              colorScheme={"teal"}
-              onClick={() => {
-                setRecommend(true);
-              }}
-            >
-              re-recommend
-            </Button>
           </Box>
         ) : (
           <Box>
-            <Heading>{error}</Heading>
+            <Heading>{error.algo.message}</Heading>
             <Button
               onClick={() => {
                 setRecommend(true);
@@ -273,52 +290,22 @@ const UserHome = () => {
                 Phone number:{therapist?.phoneno}
               </Text>
               <Text fontSize={"1.3rem"} fontWeight={"bold"}>
-                Mode of Communication:{therapist?.communication}
+                Mode of Communication:
+                {therapist?.therapistDetails.communicationType}
               </Text>
               <Text fontSize={"1.3rem"} fontWeight={"bold"}>
                 Discription:{therapist?.communication}
               </Text>
             </Box>
           </Box>
+          <Text>
+            Your Saathi will contact you soon or you can contact them yourselves
+            with the information provided above.
+          </Text>
         </Box>
       )}
-    </div>
+    </Box>
   );
-
-  // return (
-  //   <div>
-  //     {!therapistAssigned ? (
-  //       <>
-  //         {!recommend ? (
-  //           <Box>
-  //             <Heading paddingTop={"10rem"}>Recommended Therapist</Heading>
-  //             <Text fontSize={"1.5rem"}>
-  //               The therapist recommended for you :
-  //             </Text>
-  //             <Text fontWeight={"bold"}>Name:{therapist.fullName}</Text>
-  //             <Text fontWeight={"bold"}>Gender:{therapist.gender}</Text>
-  //             <Text fontWeight={"bold"}>Age:{therapist.age}</Text>
-
-  //             <Button>re-recommend</Button>
-  //             <Button onClick={assign}>Proceed</Button>
-  //           </Box>
-  //         ) : (
-  //           <Box>
-  //             <Heading paddingTop={"10rem"}>Re-Recommend Therapist</Heading>
-  //             <Rerecommend />
-  //           </Box>
-  //         )}
-  //       </>
-  //     ) : (
-  //       <Box paddingTop={"10rem"}>
-  //         <Heading>Therapist assigned</Heading>
-  //         <Text fontWeight={"bold"}>Name:{therapist?.fullName}</Text>
-  //         <Text fontWeight={"bold"}>Gender:{therapist?.gender}</Text>
-  //         <Text fontWeight={"bold"}>Age:{therapist?.age}</Text>
-  //       </Box>
-  //     )}
-  //   </div>
-  // );
 };
 
 export default UserHome;

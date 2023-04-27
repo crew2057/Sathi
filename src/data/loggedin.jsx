@@ -5,7 +5,7 @@ import { get } from "../services/middleware";
 import { Auth } from "./auth";
 export const User = createContext();
 const UserContext = ({ children }) => {
-  const { auth, setAuth } = useContext(Auth);
+  const { auth } = useContext(Auth);
   const [user, setUser] = useState({
     id: 0,
     role: "",
@@ -15,12 +15,11 @@ const UserContext = ({ children }) => {
     let id = localStorage.getItem("userId");
     const res = await get(`/user/${id}`);
     if (res) {
-      console.log(res);
       setUser({
         id: res.data.user._id,
         role: res.data.user.role,
       });
-      console.log(res.data.user.therapistAssigned);
+
       if (
         res.data.user.role === "user" &&
         res.data.user.therapistAssigned !== undefined &&

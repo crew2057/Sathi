@@ -1,9 +1,9 @@
-import { Box, Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import HomeGreen from "../assets/HomeGreen.svg";
 import { TherapistSignup } from "../components/TherapistSignup";
-import { UserSignup } from "../components/UserSignup";
+
 export const SignUp = () => {
   const [role, setRole] = useState("");
   const navigate = useNavigate();

@@ -10,21 +10,26 @@ export const Login = () => {
     email: "",
     password: "",
   });
-  const { auth, setAuth } = useContext(Auth);
+  const [error, setError] = useState("");
+  const { setAuth } = useContext(Auth);
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await axios({
-      method: "post",
-      url: "http://localhost:5000/login/",
-      data: { ...login },
-    });
-    if (res.status === 200) {
-      localStorage.setItem("Stoken", res.data.token);
-      localStorage.setItem("userId", res.data.id);
-
-      setAuth(true);
-      navigate("/home");
+    try {
+      const res = await axios({
+        method: "post",
+        url: "http://localhost:5000/login/",
+        data: { ...login },
+      });
+      if (res.status === 200) {
+        localStorage.setItem("Stoken", res.data.token);
+        localStorage.setItem("userId", res.data.id);
+        setError("");
+        setAuth(true);
+        navigate("/home");
+      }
+    } catch (err) {
+      setError("Please enter valid credentials");
     }
   };
 
@@ -62,7 +67,7 @@ export const Login = () => {
             w="100%"
           >
             <Box
-              border="1px solid black"
+              border={error !== "" ? "1px solid red" : " 1px solid black"}
               borderRadius="1.5em"
               w="75%"
               padding="0.2em 2em 0.5em 0.5em"
@@ -83,7 +88,7 @@ export const Login = () => {
               ></Input>
             </Box>
             <Box
-              border="1px solid black"
+              border={error !== "" ? "1px solid red" : " 1px solid black"}
               borderRadius="1.5em"
               w="75%"
               padding="0.2em 2em 0.5em 0.5em"
@@ -104,7 +109,11 @@ export const Login = () => {
                 }}
               ></Input>
             </Box>
-
+            {error !== "" && (
+              <Text color={"red"} fontWeight="bold">
+                {error}
+              </Text>
+            )}
             <Button
               background="none"
               padding={"2rem 4rem"}

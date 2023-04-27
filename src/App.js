@@ -23,7 +23,7 @@ function App() {
   const ref = useRef(null);
   useEffect(() => {
     let token = getBearerToken();
-    console.log(token);
+
     if (token) {
       setAuth(true);
       setLoading(false);

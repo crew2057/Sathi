@@ -8,21 +8,24 @@ import { BrowserRouter } from "react-router-dom";
 import AuthContext from "./data/auth";
 import UserContext from "./data/loggedin";
 import { theme } from "./theme";
-
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
-      <BrowserRouter>
-        <AuthContext>
-          <UserContext>
-            <Provider>
-              <App />
-            </Provider>
-          </UserContext>
-        </AuthContext>
-      </BrowserRouter>
-    </ChakraProvider>
+    <QueryClientProvider client={queryClient}>
+      <ChakraProvider theme={theme}>
+        <BrowserRouter>
+          <AuthContext>
+            <UserContext>
+              <Provider>
+                <App />
+              </Provider>
+            </UserContext>
+          </AuthContext>
+        </BrowserRouter>
+      </ChakraProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 

@@ -1,30 +1,41 @@
-import { Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
-
-import React, { useCallback, useState } from "react";
+import { Box, Heading, Text } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
+import React from "react";
 import { useContext } from "react";
-import { useEffect } from "react";
+
 import UserCard from "../../components/user";
 import { User } from "../../data/loggedin";
+
 import { get } from "../../services/middleware";
 
 const TherapistHome = () => {
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
+
   const { user } = useContext(User);
-  const fetch = useCallback(async () => {
+  const fetch = async () => {
     const res = await get(`/therapist/users/${user.id}`);
-    if (res) {
-      console.log(res.data.users);
-      setUsers(res.data.users);
-    }
-  }, [user.id]);
-  useEffect(() => {
-    fetch();
-  }, [fetch]);
+    return res.data;
+  };
+  const userQuery = useQuery({
+    queryKey: ["user"],
+    queryFn: () => fetch(),
+
+    enabled: user.id !== undefined,
+  });
+
+  if (userQuery.isLoading) return <Box>Loading....</Box>;
+  if (userQuery.isError) return <Box>Error</Box>;
   return (
     <Box padding={"1rem"}>
-      <Heading>Therapist home page</Heading>
-      {!users.length > 0 ? (
-        <Heading>No users assigned</Heading>
+      <Heading>
+        Hello this is your home page where you can see the users assigned to
+        you.
+      </Heading>
+      {!(userQuery.data.users.length > 0) ? (
+        <Text fontSize={"1.25rem"} textAlign="center" marginTop={"20rem"}>
+          Sorry but there are no users currently assigned to you. If we find
+          someone you can be of help to we will let you know.
+        </Text>
       ) : (
         <Box marginTop={"1rem"}>
           <Heading fontSize={"1.7rem"}>
@@ -35,8 +46,8 @@ const TherapistHome = () => {
             that you can help guide through their problems:
           </Heading>
           <Box>
-            {users.map((user) => {
-              return <UserCard data={user} />;
+            {userQuery.data.users.map((user, index) => {
+              return <UserCard key={index} data={user} />;
             })}
           </Box>
         </Box>

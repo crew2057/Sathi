@@ -4,7 +4,7 @@ import { Auth } from "../data/auth";
 
 const AuthChecker = ({ children }) => {
   const navigate = useNavigate();
-  const { auth, setAuth } = useContext(Auth);
+  const { auth } = useContext(Auth);
   useEffect(() => {
     if (!auth) {
       navigate("/notAuthorized");

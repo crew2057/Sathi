@@ -16,13 +16,16 @@ const NavBar = React.forwardRef((props, ref) => {
   const navigate = useNavigate();
   const { user, setUser } = useContext(User);
   const location = useLocation();
+
   const nav = useRef(null);
+
   useEffect(() => {
     const event = (e) => {
       if (window.scrollY !== 0) {
         nav.current.style.position = "fixed";
         nav.current.style.backgroundColor = "#e6ffcc";
-      } else {
+      }
+      if (window.scrollY === 0) {
         nav.current.style.position = "";
         nav.current.style.backgroundColor = "";
       }
@@ -53,22 +56,6 @@ const NavBar = React.forwardRef((props, ref) => {
           {user.role === "" ? (
             <>
               <ListItem
-                cursor={"pointer"}
-                onClick={() => {
-                  navigate("/contactus");
-                }}
-              >
-                Contact Us
-              </ListItem>
-              <ListItem
-                cursor={"pointer"}
-                onClick={() => {
-                  navigate("/blogs");
-                }}
-              >
-                Blogs
-              </ListItem>
-              <ListItem
                 onClick={() => {
                   navigate("/");
                   if (location.pathname === "/")
@@ -78,14 +65,7 @@ const NavBar = React.forwardRef((props, ref) => {
               >
                 FAQS
               </ListItem>
-              <ListItem
-                cursor={"pointer"}
-                onClick={() => {
-                  navigate("/aboutus");
-                }}
-              >
-                About Us
-              </ListItem>
+
               <ButtonGroup>
                 <Button
                   onClick={() => {
@@ -109,14 +89,6 @@ const NavBar = React.forwardRef((props, ref) => {
             </>
           ) : (
             <>
-              <ListItem
-                cursor={"pointer"}
-                onClick={() => {
-                  navigate("/blogs");
-                }}
-              >
-                Blogs
-              </ListItem>
               <ButtonGroup>
                 <Button
                   onClick={() => {

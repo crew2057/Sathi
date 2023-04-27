@@ -14,7 +14,9 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React from "react";
+import { motion } from "framer-motion";
 
+import "./home.css";
 import HomeGreen from "../assets/HomeGreen.svg";
 import Boy from "../assets/boy.svg";
 import girlGlass from "../assets/AvatarsGlasses.svg";
@@ -29,6 +31,7 @@ import CroodSitting from "../assets/CroodsSitting.svg";
 import CroodStanding from "../assets/CroodsStanding.svg";
 import Footer1 from "../assets/footer1.svg";
 import { useNavigate } from "react-router-dom";
+import { useInView } from "react-intersection-observer";
 
 const AccordionComp = (props) => {
   return (
@@ -50,9 +53,17 @@ const AccordionComp = (props) => {
 
 const Home = React.forwardRef((props, ref) => {
   const navigate = useNavigate();
+  const { ref: About, inView: viewAbout } = useInView();
+  const { ref: featureRef1, inView: view1 } = useInView();
+  const { ref: featureRef2, inView: view2 } = useInView();
+  const { ref: faq, inView: view3 } = useInView();
 
   return (
-    <Box>
+    <motion.div
+      initial={{ opacity: 0.4 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       {" "}
       {/* section 1 */}
       <Box
@@ -99,8 +110,8 @@ const Home = React.forwardRef((props, ref) => {
           zIndex: "1",
           width: "100%",
           bgImage: `url(${orange1})`,
-          height: "40vh",
-          bgPosition: "bottom  ",
+          height: "45vh",
+          bgPosition: "bottom  100px",
           bgSize: "cover",
           bgRepeat: "no-repeat",
         }}
@@ -126,7 +137,14 @@ const Home = React.forwardRef((props, ref) => {
           ></Image>
         </Box>
 
-        <Box w={"50%"} h="100%" padding="1rem" zIndex={"2"}>
+        <Box
+          w={"50%"}
+          h="100%"
+          padding="1rem"
+          zIndex={"2"}
+          className={viewAbout ? "home" : ""}
+          ref={About}
+        >
           <Flex flexDirection={"column"} marginTop="30%" gap={"1rem"}>
             <Heading fontSize={"4rem"}>
               Professional Therapists whom you can trust.{" "}
@@ -200,7 +218,11 @@ const Home = React.forwardRef((props, ref) => {
             <GridItem>
               <Image src={chatting} />
             </GridItem>
-            <GridItem paddingBlock={"8rem"}>
+            <GridItem
+              paddingBlock={"8rem"}
+              ref={featureRef1}
+              className={view1 ? "home" : ""}
+            >
               <Heading>
                 Get Therapists recommended to your choices and needs
               </Heading>
@@ -213,7 +235,11 @@ const Home = React.forwardRef((props, ref) => {
                 goals.
               </Text>
             </GridItem>
-            <GridItem paddingBlock={"5rem"}>
+            <GridItem
+              paddingBlock={"5rem"}
+              className={view2 ? "home" : ""}
+              ref={featureRef2}
+            >
               <Heading>Sessions Anywhere Anytime</Heading>
               <Text fontSize={"1.5rem"} zIndex={"1"}>
                 {" "}
@@ -270,6 +296,8 @@ const Home = React.forwardRef((props, ref) => {
             zIndex={3}
             isolation="isolate"
             margin={"auto"}
+            className={view3 ? "home" : ""}
+            ref={faq}
             overflowY={"scroll"}
           >
             <Accordion allowMultiple>
@@ -363,7 +391,7 @@ const Home = React.forwardRef((props, ref) => {
 
         <Box bgColor={"#701717"} height="30vh" w={"100vw"} color="white"></Box>
       </Box>
-    </Box>
+    </motion.div>
   );
 });
 
