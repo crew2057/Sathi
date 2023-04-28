@@ -72,7 +72,7 @@ const UserCard = ({ data }) => {
               </Text>
               {symptomDiscriptor.map((symptom, index) => {
                 return (
-                  <Box margin={"1rem"}>
+                  <Box key={index} margin={"1rem"}>
                     <Text fontWeight={"bold"}> When asked: </Text>
                     <Text>{symptom.question}</Text>
                     <Text fontWeight={"bold"}>They answered:</Text>

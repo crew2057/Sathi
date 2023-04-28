@@ -23,6 +23,7 @@ export const Rerecommend = (props) => {
       props.setRecommend(false);
     }
   };
+
   return (
     <form
       onSubmit={(e) => onSubmit(e)}
@@ -56,6 +57,7 @@ export const Rerecommend = (props) => {
               border="none"
               onChange={(e) => {
                 setTherapistDetails({
+                  ...therapistDetails,
                   speciality: e.target.value,
                 });
               }}

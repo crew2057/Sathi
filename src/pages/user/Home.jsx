@@ -20,18 +20,21 @@ const UserHome = () => {
   });
   const init = useCallback(async () => {
     if (user.id) {
-      const [algorithm] = await Promise.all([
-        get(`/user/recommendByAlgo/${user.id}`).catch((err) => {
-          setErrorr((e) => ({
-            ...e,
-            algo: { message: err.response.data.message },
-          }));
-        }),
-      ]);
-
-      if (algorithm) {
-        setTherapist(algorithm.data.therapistToOurPreferences);
-        setAlgoTherapist(algorithm.data.therapistFromSymptoms);
+      try {
+        const [algorithm] = await Promise.all([
+          get(`/user/recommendByAlgo/${user.id}`).catch((err) => {
+            setErrorr((e) => ({
+              ...e,
+              algo: { message: err.response.data.message },
+            }));
+          }),
+        ]);
+        if (algorithm.data) {
+          setTherapist(algorithm.data.therapistToOurPreferences);
+          setAlgoTherapist(algorithm.data.therapistFromSymptoms);
+        }
+      } catch (err) {
+        console.log(err);
       }
     }
   }, [user.id]);
@@ -155,10 +158,10 @@ const UserHome = () => {
                       Proceed
                     </Button>
                   </Box>
-                  {algoTherapist.length > 0 && (
+                  {algoTherapist?.length > 0 && (
                     <Box>
                       <Heading>Similar therapists you can check</Heading>
-                      {algoTherapist.map((thera, index) => {
+                      {algoTherapist?.map((thera, index) => {
                         return (
                           <Box
                             display={"flex"}
