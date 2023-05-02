@@ -9,15 +9,18 @@ const UserContext = ({ children }) => {
   const [user, setUser] = useState({
     id: 0,
     role: "",
+    likedBlogs: [],
   });
   const [therapistAssigned, setTherapistAssigned] = useState(false);
   const init = async () => {
     let id = localStorage.getItem("userId");
     const res = await get(`/user/${id}`);
+    console.log(res);
     if (res) {
       setUser({
         id: res.data.user._id,
         role: res.data.user.role,
+        likedBlogs: [...res.data.user.likedBlogs],
       });
 
       if (

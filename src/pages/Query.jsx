@@ -1,10 +1,18 @@
-import { Box, Button, Divider, Flex, Heading, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Heading,
+  Progress,
+  Text,
+} from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
 
 import HomeGreen from "../assets/HomeGreen.svg";
 import { UserSignup } from "../components/UserSignup";
-
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import therapistQuery from "../data/therapistQ.json";
 export const symptomDiscriptor = [
   {
@@ -83,7 +91,7 @@ export const symptomDiscriptor = [
       "Are you experiencing any Sexual disorders: (experiencing difficulties related to sexual functioning or desire.?",
   },
 ];
-const QueryButton = ({ onClick, children }) => (
+const QueryButton = ({ onClick, children, selected }) => (
   <Button
     variant={"outline"}
     padding={" 2rem 3rem"}
@@ -91,6 +99,8 @@ const QueryButton = ({ onClick, children }) => (
     minW="350px"
     borderRadius={"2rem"}
     border={"2px solid black"}
+    color={selected ? "white" : ""}
+    backgroundColor={selected ? "#9ffaab" : ""}
     onClick={onClick}
   >
     {children}
@@ -100,8 +110,12 @@ export const Query = () => {
   const [query, setQuery] = useState({
     symptomQuery: 0,
     query1: 0,
-    query2: 0,
   });
+  const progress =
+    ((query.symptomQuery + query.query1) /
+      (therapistQuery.length + symptomDiscriptor.length)) *
+    100;
+
   const [userDetails] = useState([]);
   const [therapistDetails, setTherapistdetails] = useState([]);
   const [symptoms, setSymptoms] = useState({
@@ -121,46 +135,95 @@ export const Query = () => {
     psychoticDisorder: 0,
     sexualDisorder: 0,
   });
+  const [selected, setSelected] = useState(null);
 
-  const renderSymptomQuery = () => {
-    const handleChange = (key, val) => {
-      setQuery({ ...query, symptomQuery: query.symptomQuery + 1 });
+  const RenderSymptomQuery = () => {
+    const handleChange = (key, val, select) => {
+      setSelected(select);
+      // setQuery({ ...query, symptomQuery: query.symptomQuery + 1 });
       setSymptoms({ ...symptoms, [key]: val });
     };
     return symptomDiscriptor.map((discriptor, index) => {
       return (
-        <Flex
-          key={discriptor}
-          direction="column"
-          gap="1rem"
-          alignItems={"center"}
-          w="100%"
-        >
-          <Box alignSelf={"start"}>
-            <Heading> {discriptor.question.split("(")[0]}</Heading>
-            <Text>{discriptor.question.split("(")[1]}</Text>
-          </Box>
-          <QueryButton onClick={() => handleChange(discriptor.key, 0)}>
-            1.Not at all
-          </QueryButton>
+        <Flex key={discriptor} direction="column" gap="1rem" w="100%" h="100%">
+          <Flex alignSelf={"start"}>
+            {query.symptomQuery > 0 && (
+              <Button
+                alignSelf={"center"}
+                background={"transparent"}
+                padding={"3rem"}
+                flexShrink={0}
+                onClick={() => {
+                  setQuery({ ...query, symptomQuery: query.symptomQuery - 1 });
+                  setSelected(null);
+                }}
+              >
+                <AiOutlineArrowLeft size={"1rem"} />
+                Prev
+              </Button>
+            )}
+            <Box>
+              <Heading> {discriptor.question.split("(")[0]}</Heading>
+              <Text>{discriptor.question.split("(")[1]}</Text>
+            </Box>
+          </Flex>
 
-          <QueryButton onClick={() => handleChange(discriptor.key, 0.25)}>
-            2.Maybe a little{" "}
-          </QueryButton>
+          <Flex alignSelf={"center"} gap={"1rem"} h="100%">
+            <Flex direction="column" gap={"1rem"} h="100%">
+              <QueryButton
+                selected={selected === 1}
+                onClick={() => handleChange(discriptor.key, 0, 1)}
+              >
+                1.Not at all
+              </QueryButton>
 
-          <QueryButton onClick={() => handleChange(discriptor.key, 0.5)}>
-            3.Often{" "}
-          </QueryButton>
-          <QueryButton onClick={() => handleChange(discriptor.key, 0.75)}>
-            4.More than often{" "}
-          </QueryButton>
-          <QueryButton onClick={() => handleChange(discriptor.key, 1)}>
-            5.All the time
-          </QueryButton>
+              <QueryButton
+                selected={selected === 2}
+                onClick={() => handleChange(discriptor.key, 0.25, 2)}
+              >
+                2.Maybe a little{" "}
+              </QueryButton>
+
+              <QueryButton
+                selected={selected === 3}
+                onClick={() => handleChange(discriptor.key, 0.5, 3)}
+              >
+                3.Often{" "}
+              </QueryButton>
+              <QueryButton
+                selected={selected === 4}
+                onClick={() => handleChange(discriptor.key, 0.75, 4)}
+              >
+                4.More than often{" "}
+              </QueryButton>
+              <QueryButton
+                selected={selected === 5}
+                onClick={() => handleChange(discriptor.key, 1, 5)}
+              >
+                5.All the time
+              </QueryButton>
+            </Flex>
+            {selected !== null && (
+              <Button
+                alignSelf={"center"}
+                background={"transparent"}
+                padding={"3rem"}
+                minH={"70%"}
+                onClick={() => {
+                  setQuery({ ...query, symptomQuery: query.symptomQuery + 1 });
+                  setSelected(null);
+                }}
+              >
+                Proceed
+                <AiOutlineArrowRight />
+              </Button>
+            )}
+          </Flex>
         </Flex>
       );
     })[query.symptomQuery];
   };
+  console.log(query.symptomQuery);
 
   const renderQuestion = () => {
     return (
@@ -171,41 +234,92 @@ export const Query = () => {
           alignItems={"center"}
           paddingTop="2rem"
           w="100%"
+          height={"100%"}
         >
-          <>
+          <Flex>
+            {query.symptomQuery >= Object.keys(symptoms).length &&
+            !(query.query1 > 0) ? (
+              <Button
+                alignSelf={"center"}
+                background={"transparent"}
+                padding={"3rem"}
+                flexShrink={0}
+                onClick={() => {
+                  setQuery({ ...query, symptomQuery: query.symptomQuery - 1 });
+                  setSelected(null);
+                }}
+              >
+                <AiOutlineArrowLeft size={"1rem"} />
+                Prev
+              </Button>
+            ) : (
+              <Button
+                alignSelf={"center"}
+                background={"transparent"}
+                padding={"3rem"}
+                flexShrink={0}
+                onClick={() => {
+                  setQuery({ ...query, query1: query.query1 - 1 });
+                  setSelected(null);
+                }}
+              >
+                <AiOutlineArrowLeft size={"1rem"} />
+                Prev
+              </Button>
+            )}
             <Heading>{therapistQuery[query.query1].title}</Heading>
+          </Flex>
+          <Flex alignSelf={"center"} gap={"3rem"} height={"100%"}>
+            <Flex direction={"column"} gap="1rem">
+              {therapistQuery[query.query1].options.map((option, index) => {
+                return (
+                  <QueryButton
+                    selected={index === selected}
+                    onClick={() => {
+                      setSelected(index);
+                      setTherapistdetails([
+                        ...therapistDetails,
+                        { [therapistQuery[query.query1].title]: option },
+                      ]);
 
-            {therapistQuery[query.query1].options.map((option, index) => {
-              return (
-                <Button
-                  variant={"outline"}
-                  padding={" 2rem 3rem"}
-                  fontSize={"2rem"}
-                  borderRadius={"2rem"}
-                  border={"2px solid black"}
-                  onClick={() => {
-                    setTherapistdetails([
-                      ...therapistDetails,
-                      { [therapistQuery[query.query1].title]: option },
-                    ]);
-
-                    setQuery({
-                      ...query,
-                      query1: query.query1 + 1,
-                    });
-                  }}
-                >
-                  {index + 1}) {option}
-                </Button>
-              );
-            })}
-          </>
+                      // setQuery({
+                      //   ...query,
+                      //   query1: query.query1 + 1,
+                      // });
+                    }}
+                  >
+                    {index + 1}) {option}
+                  </QueryButton>
+                );
+              })}
+            </Flex>
+            {selected !== null && (
+              <Button
+                alignSelf={"center"}
+                background={"transparent"}
+                padding={
+                  query.query1 === therapistQuery.length - 1
+                    ? "45rem 3rem 45rem 3rem"
+                    : "3rem"
+                }
+                onClick={() => {
+                  setQuery({
+                    ...query,
+                    query1: query.query1 + 1,
+                  });
+                  setSelected(null);
+                }}
+              >
+                Proceed
+                <AiOutlineArrowRight />
+              </Button>
+            )}
+          </Flex>
         </Flex>
       </>
     );
   };
 
-  //   console.log(therapistQuery[0]);
   return (
     <Box
       display={"flex"}
@@ -225,6 +339,7 @@ export const Query = () => {
         transition={{ duration: 0.3 }}
         style={{
           width: "100%",
+          height: "100%",
         }}
       >
         <Box
@@ -245,9 +360,17 @@ export const Query = () => {
                 Fill this short questionnare so we can help you find the right
                 therapist for you
               </Text>
+              <Progress
+                colorScheme="green"
+                height="1rem"
+                borderRadius="50px"
+                value={progress}
+              />
+              {query.symptomQuery + query.query1} out of{" "}
+              {therapistQuery.length + symptomDiscriptor.length}
               <Divider marginTop={"1rem"} />
               {query.symptomQuery < Object.keys(symptoms).length
-                ? renderSymptomQuery()
+                ? RenderSymptomQuery()
                 : renderQuestion()}
             </>
           ) : (

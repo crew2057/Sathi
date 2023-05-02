@@ -8,7 +8,7 @@ import Redirect from "./components/Redirect";
 import { Auth } from "./data/auth";
 import NotFound from "./pages/404";
 import AboutUs from "./pages/AboutUs";
-import Blogs from "./pages/Blogs";
+
 import Home from "./pages/Home";
 import LoggedinHome from "./pages/LoggedinHome";
 import { Login } from "./pages/Login";
@@ -17,6 +17,9 @@ import { Query } from "./pages/Query";
 import { SignUp } from "./pages/SignUp";
 import { getBearerToken } from "./services/auth";
 import "./App.css";
+import TherapistBlogs from "./pages/therapist/Blogs";
+import BlogForm from "./pages/therapist/BlogForm";
+
 function App() {
   const { setAuth } = useContext(Auth);
   const [loading, setLoading] = useState(true);
@@ -59,6 +62,22 @@ function App() {
             </AuthChecker>
           }
         ></Route>
+        <Route
+          path="/blogs"
+          element={
+            <AuthChecker>
+              <TherapistBlogs />
+            </AuthChecker>
+          }
+        />
+        <Route
+          path="/blogs/add"
+          element={
+            <AuthChecker>
+              <BlogForm />
+            </AuthChecker>
+          }
+        />
 
         <Route path="/notAuthorized" element={<NotAuthorized />}></Route>
         {/*  */}
@@ -87,7 +106,7 @@ function App() {
           }
         ></Route>
         <Route path="/aboutus" element={<AboutUs />}></Route>
-        <Route path="/blogs" element={<Blogs />}></Route>
+
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </div>

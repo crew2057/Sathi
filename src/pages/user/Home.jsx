@@ -9,6 +9,9 @@ import { Rerecommend } from "./Rereco";
 import Boy from "../../assets/boy.svg";
 import girlGlass from "../../assets/AvatarsGlasses.svg";
 
+import { useQuery } from "@tanstack/react-query";
+import BlogCard from "../therapist/BlogCard";
+
 const UserHome = () => {
   const { user, therapistAssigned, setTherapistAssigned } = useContext(User);
   const [therapist, setTherapist] = useState();
@@ -76,6 +79,17 @@ const UserHome = () => {
     }
   }, [init, therapistAssigned, recommend, getAssigned]);
 
+  const fetch = async () => {
+    const res = await get(`/blog/`);
+    return res.data;
+  };
+  const blogQuery = useQuery({
+    queryKey: ["blogs"],
+    queryFn: () => fetch(),
+  });
+
+  if (blogQuery.isLoading) return <Box>Loading....</Box>;
+  if (blogQuery.isError) return <Box>Error</Box>;
   if (recommend) {
     return <Rerecommend recommend={recommend} setRecommend={setRecommend} />;
   }
@@ -305,6 +319,22 @@ const UserHome = () => {
             Your Saathi will contact you soon or you can contact them yourselves
             with the information provided above.
           </Text>
+          <Box marginTop={"5rem"} padding={"2rem"}>
+            <Heading>
+              Blogs from our therapists you can discover in the meanwhile
+            </Heading>
+            {blogQuery?.data.response.map((blog) => {
+              return (
+                <BlogCard
+                  id={blog.blog._id}
+                  title={blog.blog.title}
+                  content={blog.blog.content}
+                  likes={blog.blog.likes}
+                  createdBy={blog.user.username}
+                />
+              );
+            })}
+          </Box>
         </Box>
       )}
     </Box>

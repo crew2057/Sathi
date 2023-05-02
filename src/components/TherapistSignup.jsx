@@ -13,10 +13,11 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { post } from "../services/middleware";
+import { Auth } from "../data/auth";
 
 export const TherapistSignup = () => {
   const [therapistDetails, setTherapistDetails] = useState({
@@ -29,6 +30,7 @@ export const TherapistSignup = () => {
     register,
     formState: { errors },
   } = useForm();
+  const { setAuth } = useContext(Auth);
   const navigate = useNavigate();
   const [extraErrors, setExtraErrors] = useState({
     speciality: false,
@@ -78,7 +80,10 @@ export const TherapistSignup = () => {
         role: "therapist",
       });
       if (res) {
-        navigate("/login");
+        localStorage.setItem("Stoken", res.data.token);
+        localStorage.setItem("userId", res.data.id);
+        setAuth(true);
+        navigate("/home");
       }
     }
   };

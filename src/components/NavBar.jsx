@@ -87,9 +87,18 @@ const NavBar = React.forwardRef((props, ref) => {
                 </Button>
               </ButtonGroup>
             </>
-          ) : (
+          ) : user.role === "therapist" ? (
             <>
               <ButtonGroup>
+                <Button
+                  onClick={() => {
+                    navigate("/blogs");
+                  }}
+                  outline="2px solid black"
+                  variant={"outline"}
+                >
+                  Blogs
+                </Button>
                 <Button
                   onClick={() => {
                     logOut();
@@ -102,6 +111,17 @@ const NavBar = React.forwardRef((props, ref) => {
                 </Button>
               </ButtonGroup>
             </>
+          ) : (
+            <Button
+              onClick={() => {
+                logOut();
+                setUser("");
+              }}
+              outline="2px solid black"
+              variant={"outline"}
+            >
+              LogOut
+            </Button>
           )}
         </List>
       </Flex>

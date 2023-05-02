@@ -1,9 +1,10 @@
 import { Box, Button, Grid, Input, Select, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import { post } from "../services/middleware";
+import { Auth } from "../data/auth";
 export const UserSignup = (props) => {
   const {
     handleSubmit,
@@ -12,7 +13,7 @@ export const UserSignup = (props) => {
   } = useForm();
 
   const navigate = useNavigate();
-
+  const { setAuth } = useContext(Auth);
   const onSubmit = async (values) => {
     const res = await post("http://localhost:5000/user/", {
       ...values,
@@ -27,7 +28,10 @@ export const UserSignup = (props) => {
     });
     if (res.status === 200) {
       console.log(res);
-      navigate("/login");
+      localStorage.setItem("Stoken", res.data.token);
+      localStorage.setItem("userId", res.data.id);
+      setAuth(true);
+      navigate("/home");
     }
   };
   return (
