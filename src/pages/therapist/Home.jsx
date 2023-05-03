@@ -45,7 +45,7 @@ const TherapistHome = () => {
             </Box>{" "}
             that you can help guide through their problems:
           </Heading>
-          <Box>
+          <Box w="80%" margin={"auto"}>
             {userQuery.data.users.map((user, index) => {
               return <UserCard key={index} data={user} />;
             })}

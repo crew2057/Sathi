@@ -73,20 +73,25 @@ const UserCard = ({ data }) => {
               {symptomDiscriptor.map((symptom, index) => {
                 return (
                   <Box key={index} margin={"1rem"}>
-                    <Text fontWeight={"bold"}> When asked: </Text>
-                    <Text>{symptom.question}</Text>
-                    <Text fontWeight={"bold"}>They answered:</Text>
-                    <Text>
-                      They feel the above described conditions matching their
-                      condition is -
-                      <Text as="span" fontWeight={"bold"}>
-                        {
-                          condition.filter((cond) => {
-                            return (
-                              cond.value === data.userSymptoms[symptom.key]
-                            );
-                          })[0].choice
-                        }
+                    <Text fontWeight={"bold"}>
+                      {index + 1}) Question:{" "}
+                      <Text as={"span"} fontWeight={"light"}>
+                        {symptom.question}
+                      </Text>{" "}
+                    </Text>
+
+                    <Text fontWeight={"bold"}>
+                      Answer:{" "}
+                      <Text as={"span"}>
+                        <Text as="span" fontWeight={"bold"}>
+                          {
+                            condition.filter((cond) => {
+                              return (
+                                cond.value === data.userSymptoms[symptom.key]
+                              );
+                            })[0].choice
+                          }
+                        </Text>
                       </Text>
                     </Text>
                   </Box>

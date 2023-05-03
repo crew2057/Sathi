@@ -279,9 +279,9 @@ const UserHome = () => {
             display={"flex"}
             marginTop={"1rem"}
             borderRadius="1rem"
-            minH="50vh"
             maxH="70vh"
             padding="2rem"
+            paddingBottom={"5rem"}
             boxShadow={"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px "}
           >
             <Flex display={"column"} alignContent="center">
@@ -310,9 +310,9 @@ const UserHome = () => {
                 Mode of Communication:
                 {therapist?.therapistDetails.communicationType}
               </Text>
-              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
+              {/* <Text fontSize={"1.3rem"} fontWeight={"bold"}>
                 Discription:{therapist?.communication}
-              </Text>
+              </Text> */}
             </Box>
           </Box>
           <Text>

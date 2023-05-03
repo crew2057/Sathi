@@ -27,6 +27,7 @@ const BlogForm = () => {
       navigate("/blogs");
     }
   };
+
   return (
     <Box
       padding={"1rem"}
@@ -34,19 +35,21 @@ const BlogForm = () => {
       flexDir="column"
       justifyContent={"center"}
       alignItems={"center"}
+      gap="2rem"
     >
       <Heading>Add Blogs</Heading>
       <Box
-        width={"70%"}
+        padding="5rem"
+        width={"50%"}
         boxShadow={"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px "}
-        padding={"3rem"}
+        borderRadius={"20px"}
       >
         <form
           onSubmit={handleSubmit(onSubmit)}
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: "1rem",
+            gap: "3rem",
           }}
         >
           <FormControl>
@@ -60,6 +63,7 @@ const BlogForm = () => {
           <FormControl>
             <FormLabel>Content of Blog</FormLabel>
             <Textarea
+              rows={20}
               {...register("content", {
                 required: "Please enter content",
               })}

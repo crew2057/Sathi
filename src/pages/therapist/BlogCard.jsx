@@ -1,14 +1,39 @@
-import { Box, Heading, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Heading,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  useDisclosure,
+  useToast,
+} from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
-import { put } from "../../services/middleware";
+import { MdOutlineDelete } from "react-icons/md";
+import { del, put } from "../../services/middleware";
 import { User } from "../../data/loggedin";
 
-const BlogCard = ({ id, title, content, likes, createdBy }) => {
+const BlogCard = ({
+  id,
+  title,
+  content,
+  likes,
+  createdBy,
+  remove,
+  blogQuery,
+}) => {
   const [liked, setLiked] = useState("notliked");
+  const [view, setView] = useState(false);
   const [newLikes, setNewLikes] = useState(likes);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useContext(User);
-
+  const toast = useToast();
   useEffect(() => {
     user.likedBlogs.forEach((blog) => {
       if (blog === id) {
@@ -54,7 +79,21 @@ const BlogCard = ({ id, title, content, likes, createdBy }) => {
       console.log(res);
     }
   };
-
+  const handleDelete = async () => {
+    const res = await del(`/blog/${id}`);
+    if (res) {
+      onClose();
+      blogQuery.refetch();
+      toast({
+        title: "Blog Deleted",
+        description: "We've Deleted your Blog for you.",
+        status: "success",
+        position: "top",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
   return (
     <Box
       padding={"2rem"}
@@ -63,10 +102,27 @@ const BlogCard = ({ id, title, content, likes, createdBy }) => {
       gap={"1rem"}
       boxShadow={"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px "}
       marginTop={"2rem"}
-      borderRadius={"10px"}
+      pos={"relative"}
+      borderRadius={"40px"}
     >
-      <Heading fontSize={"2rem"}>Title:{title}</Heading>
-      <Text fontSize={"1.2rem"}>{content}</Text>
+      <Heading fontSize={"2rem"}>{title}</Heading>
+      <Text fontSize={"1.2rem"}>
+        {view
+          ? content
+          : content.length > 40
+          ? content.slice(0, 40) + "..."
+          : content}
+      </Text>
+      <Text
+        _hover={{
+          color: "green.200",
+        }}
+        fontWeight={"bold"}
+        cursor={"pointer"}
+        onClick={() => setView(!view)}
+      >
+        {content.length > 40 && <>View {!view ? "more" : "less"}</>}
+      </Text>
       <Box
         display={"flex"}
         flexDirection={"column"}
@@ -91,6 +147,40 @@ const BlogCard = ({ id, title, content, likes, createdBy }) => {
       <Box>
         <Heading fontSize={"1rem"}>CreatedBy:{createdBy}</Heading>
       </Box>
+      {remove && (
+        <MdOutlineDelete
+          onClick={onOpen}
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "30px",
+            cursor: "pointer",
+          }}
+          size={"2rem"}
+        />
+      )}
+
+      <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Delete Blog?</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text fontWeight="bold" mb="1rem">
+              Are you sure you want to delete your blog?
+            </Text>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="red" mr={3} onClick={handleDelete}>
+              Delete
+            </Button>
+            <Button variant="ghost" onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };
