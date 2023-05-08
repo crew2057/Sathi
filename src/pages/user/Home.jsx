@@ -11,10 +11,11 @@ import girlGlass from "../../assets/AvatarsGlasses.svg";
 
 import { useQuery } from "@tanstack/react-query";
 import BlogCard from "../therapist/BlogCard";
+import { AiTwotoneStar } from "react-icons/ai";
 
 const UserHome = () => {
   const { user, therapistAssigned, setTherapistAssigned } = useContext(User);
-  const [therapist, setTherapist] = useState();
+  const [therapist, setTherapist] = useState([]);
   const [algoTherapist, setAlgoTherapist] = useState([]);
   const [recommend, setRecommend] = useState(false);
   const [error, setErrorr] = useState({
@@ -43,9 +44,9 @@ const UserHome = () => {
   }, [user.id]);
 
   const assign = async (val, therap) => {
-    if (val === "query" && therapist._id) {
+    if (val === "query") {
       const res = await post("/user/assign", {
-        therapistId: therapist._id,
+        therapistId: therap._id,
         id: user.id,
       });
       if (res) {
@@ -66,13 +67,14 @@ const UserHome = () => {
     if (user.id && !recommend) {
       const res = await Promise.all([get(`/user/therapist/${user.id}`)]);
       if (res) {
-        setTherapist(res[0].data);
+        console.log(res);
+        setTherapist([res[0].data]);
       }
     }
   }, [user.id, recommend]);
 
   useEffect(() => {
-    if (!therapistAssigned && !recommend) {
+    if (!therapistAssigned && !recommend && !therapistAssigned) {
       init();
     } else {
       getAssigned();
@@ -126,52 +128,223 @@ const UserHome = () => {
                   </Heading>
 
                   {/* <UserCard data={therapist} /> */}
-                  <Box
-                    display={"flex"}
-                    marginTop={"1rem"}
-                    borderRadius="1rem"
-                    padding="2rem"
-                    boxShadow={"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px "}
-                  >
-                    <Flex display={"column"}>
-                      <Box>
-                        {therapist?.gender === "male" ? (
-                          <Image src={Boy} h="15rem" />
-                        ) : (
-                          <Image src={girlGlass} h="15rem" />
-                        )}
-                      </Box>
-                      <Text fontSize={"1.2rem"} fontWeight={"bold"}>
-                        Name:{therapist?.fullName}
-                      </Text>
-                    </Flex>
-
-                    <Box padding={"2rem"}>
-                      <Text fontSize={"1.2rem"} fontWeight={"bold"}>
-                        Speciality:{therapist?.therapistDetails.speciality}
-                      </Text>
-                      <Text fontSize={"1.3rem"} fontWeight={"bold"}>
-                        User Name:{therapist?.username}
-                      </Text>
-                      <Text fontSize={"1.3rem"} fontWeight={"bold"}>
-                        Gender:{therapist?.gender}
-                      </Text>
-                      <Text fontSize={"1.3rem"} fontWeight={"bold"}>
-                        Age:{therapist?.age}
-                      </Text>
-                      <Text fontSize={"1.3rem"} fontWeight={"bold"}>
-                        Patients handled:{therapist?.usersAssigned.length}
-                      </Text>
-                    </Box>
-                    <Button
-                      colorScheme={"teal"}
-                      alignSelf="end"
-                      marginLeft="auto"
-                      onClick={() => assign("query", 0)}
+                  {therapist?.length > 1 ? (
+                    <Box
+                      display={"flex"}
+                      overflowX={"scroll"}
+                      padding="3rem"
+                      gap="2rem"
+                      borderRadius={"1rem"}
+                      boxShadow={"rgba(100, 100, 111, 0.2) 0px 7px 29px 20px "}
                     >
-                      Proceed
-                    </Button>
-                  </Box>
+                      {therapist?.map((ther, index) => {
+                        return (
+                          <Box
+                            key={ther + index}
+                            display={"flex"}
+                            marginTop={"1rem"}
+                            flexDirection={"column"}
+                            borderRadius="1rem"
+                            minW="fit-content"
+                            gap={"1rem"}
+                            padding="2rem"
+                            pos={"relative"}
+                            boxShadow={
+                              "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px "
+                            }
+                          >
+                            {ther?.therapistDetails.speciality ===
+                              user.therapistDetails.speciality && (
+                              <Box
+                                pos={"absolute"}
+                                top={"-30px"}
+                                display={"flex"}
+                                alignItems={"center"}
+                              >
+                                <AiTwotoneStar size={"1.5rem"} fill="orange" />
+                                <Text>
+                                  This therapist is specialized in your prefered
+                                  specialization.
+                                </Text>
+                              </Box>
+                            )}
+                            <Flex minWidth="100px">
+                              <Flex display={"column"}>
+                                <Box>
+                                  {ther?.gender === "male" ? (
+                                    <Image src={Boy} h="15rem" />
+                                  ) : (
+                                    <Image src={girlGlass} h="15rem" />
+                                  )}
+                                </Box>
+                                <Box fontSize={"1rem"}>
+                                  <Text fontWeight={"bold"} as={"span"}>
+                                    {" "}
+                                    Name:
+                                  </Text>
+                                  {ther?.fullName}
+                                </Box>
+                              </Flex>
+                              <Flex
+                                display={"column"}
+                                gap="2rem"
+                                flexShrink={0}
+                                padding={"2rem"}
+                              >
+                                <Box>
+                                  <Text fontWeight={"bold"} as={"span"}>
+                                    {" "}
+                                    Speciality:
+                                  </Text>
+                                  {ther?.therapistDetails.speciality}
+                                </Box>
+                                <Box>
+                                  <Text fontWeight={"bold"} as={"span"}>
+                                    {" "}
+                                    Mode of Communication:{" "}
+                                  </Text>
+                                  {ther?.therapistDetails.communicationType}
+                                </Box>
+                                <Box>
+                                  {" "}
+                                  <Text fontWeight={"bold"} as={"span"}>
+                                    Username:{" "}
+                                  </Text>
+                                  {ther?.username}
+                                </Box>
+                                <Box>
+                                  {" "}
+                                  <Text fontWeight={"bold"} as={"span"}>
+                                    Gender:{" "}
+                                  </Text>
+                                  {ther?.gender}
+                                </Box>
+                                <Box>
+                                  {" "}
+                                  <Text fontWeight={"bold"} as={"span"}>
+                                    Age:{" "}
+                                  </Text>
+                                  {ther?.age}
+                                </Box>
+                                <Box>
+                                  <Text fontWeight={"bold"} as={"span"}>
+                                    Patients handled:{" "}
+                                  </Text>
+                                  {ther?.usersAssigned.length}
+                                </Box>
+                              </Flex>
+                            </Flex>
+                            <Button
+                              colorScheme={"teal"}
+                              alignSelf="end"
+                              paddingInline={"2rem"}
+                              marginLeft="auto"
+                              onClick={() => assign("query", ther)}
+                            >
+                              Proceed
+                            </Button>
+                          </Box>
+                        );
+                      })}
+                    </Box>
+                  ) : therapist.length === 1 ? (
+                    <Box
+                      display={"flex"}
+                      marginTop={"1rem"}
+                      flexDirection={"column"}
+                      borderRadius="1rem"
+                      minW="fit-content"
+                      padding="2rem"
+                      boxShadow={"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px "}
+                    >
+                      {therapist[0]?.therapistDetails.speciality ===
+                        user.therapistDetails.speciality && (
+                        <Box display={"flex"} alignItems={"center"}>
+                          <AiTwotoneStar size={"1.5rem"} fill="orange" />
+                          <Text>
+                            This therapist is specialized in your prefered
+                            specialization.
+                          </Text>
+                        </Box>
+                      )}
+                      <Flex minWidth="100px">
+                        <Flex display={"column"}>
+                          <Box>
+                            {therapist[0]?.gender === "male" ? (
+                              <Image src={Boy} h="15rem" />
+                            ) : (
+                              <Image src={girlGlass} h="15rem" />
+                            )}
+                          </Box>
+                          <Box fontSize={"1rem"}>
+                            <Text fontWeight={"bold"} as={"span"}>
+                              {" "}
+                              Name:
+                            </Text>
+                            {therapist[0]?.fullName}
+                          </Box>
+                        </Flex>
+                        <Flex
+                          display={"column"}
+                          gap="2rem"
+                          flexShrink={0}
+                          padding={"2rem"}
+                        >
+                          <Box>
+                            <Text fontWeight={"bold"} as={"span"}>
+                              {" "}
+                              Speciality:
+                            </Text>
+                            {therapist[0]?.therapistDetails.speciality}
+                          </Box>
+                          <Box>
+                            <Text fontWeight={"bold"} as={"span"}>
+                              {" "}
+                              Mode of Communication:{" "}
+                            </Text>
+                            {therapist[0]?.therapistDetails.communicationType}
+                          </Box>
+                          <Box>
+                            {" "}
+                            <Text fontWeight={"bold"} as={"span"}>
+                              Username:{" "}
+                            </Text>
+                            {therapist[0]?.username}
+                          </Box>
+                          <Box>
+                            {" "}
+                            <Text fontWeight={"bold"} as={"span"}>
+                              Gender:{" "}
+                            </Text>
+                            {therapist[0]?.gender}
+                          </Box>
+                          <Box>
+                            {" "}
+                            <Text fontWeight={"bold"} as={"span"}>
+                              Age:{" "}
+                            </Text>
+                            {therapist[0]?.age}
+                          </Box>
+                          <Box>
+                            <Text fontWeight={"bold"} as={"span"}>
+                              Patients handled:{" "}
+                            </Text>
+                            {therapist[0]?.usersAssigned.length}
+                          </Box>
+                        </Flex>
+                      </Flex>
+                      <Button
+                        colorScheme={"teal"}
+                        alignSelf="end"
+                        paddingInline={"2rem"}
+                        marginLeft="auto"
+                        onClick={() => assign("query", therapist[0])}
+                      >
+                        Proceed
+                      </Button>
+                    </Box>
+                  ) : null}
+
                   {algoTherapist?.length > 0 && (
                     <Box>
                       <Heading>Similar therapists you can check</Heading>
@@ -179,48 +352,96 @@ const UserHome = () => {
                         return (
                           <Box
                             display={"flex"}
+                            key={thera + index}
                             marginTop={"1rem"}
+                            flexDirection={"column"}
                             borderRadius="1rem"
+                            minW="fit-content"
                             padding="2rem"
-                            key={index}
                             boxShadow={
                               "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px "
                             }
                           >
-                            <Flex display={"column"}>
-                              <Box>
-                                {thera?.gender === "male" ? (
-                                  <Image src={Boy} h="10rem" />
-                                ) : (
-                                  <Image src={girlGlass} h="10rem" />
-                                )}
+                            {thera?.therapistDetails.speciality ===
+                              user.therapistDetails.speciality && (
+                              <Box display={"flex"} alignItems={"center"}>
+                                <AiTwotoneStar size={"1.5rem"} fill="orange" />
+                                <Text>
+                                  This therapist is specialized in your prefered
+                                  specialization.
+                                </Text>
                               </Box>
-                              <Text fontSize={"1.2rem"} fontWeight={"bold"}>
-                                Name:{thera?.fullName}
-                              </Text>
+                            )}
+                            <Flex minWidth="100px">
+                              <Flex display={"column"}>
+                                <Box>
+                                  {thera?.gender === "male" ? (
+                                    <Image src={Boy} h="15rem" />
+                                  ) : (
+                                    <Image src={girlGlass} h="15rem" />
+                                  )}
+                                </Box>
+                                <Box fontSize={"1rem"}>
+                                  <Text fontWeight={"bold"} as={"span"}>
+                                    {" "}
+                                    Name:
+                                  </Text>
+                                  {thera?.fullName}
+                                </Box>
+                              </Flex>
+                              <Flex
+                                display={"column"}
+                                gap="2rem"
+                                flexShrink={0}
+                                padding={"2rem"}
+                              >
+                                <Box>
+                                  <Text fontWeight={"bold"} as={"span"}>
+                                    {" "}
+                                    Speciality:
+                                  </Text>
+                                  {thera?.therapistDetails.speciality}
+                                </Box>
+                                <Box>
+                                  <Text fontWeight={"bold"} as={"span"}>
+                                    {" "}
+                                    Mode of Communication:{" "}
+                                  </Text>
+                                  {thera?.therapistDetails.communicationType}
+                                </Box>
+                                <Box>
+                                  {" "}
+                                  <Text fontWeight={"bold"} as={"span"}>
+                                    Username:{" "}
+                                  </Text>
+                                  {thera?.username}
+                                </Box>
+                                <Box>
+                                  {" "}
+                                  <Text fontWeight={"bold"} as={"span"}>
+                                    Gender:{" "}
+                                  </Text>
+                                  {thera?.gender}
+                                </Box>
+                                <Box>
+                                  {" "}
+                                  <Text fontWeight={"bold"} as={"span"}>
+                                    Age:{" "}
+                                  </Text>
+                                  {thera?.age}
+                                </Box>
+                                <Box>
+                                  <Text fontWeight={"bold"} as={"span"}>
+                                    Patients handled:{" "}
+                                  </Text>
+                                  {thera?.usersAssigned.length}
+                                </Box>
+                              </Flex>
                             </Flex>
-
-                            <Box padding={"2rem"}>
-                              <Text fontSize={"1.2rem"} fontWeight={"bold"}>
-                                Speciality:
-                                {thera?.therapistDetails.speciality}
-                              </Text>
-                              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
-                                User Name:{thera?.username}
-                              </Text>
-                              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
-                                Gender:{thera?.gender}
-                              </Text>
-                              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
-                                Age:{thera?.age}
-                              </Text>
-                              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
-                                Patients handled:{thera?.usersAssigned.length}
-                              </Text>
-                            </Box>
                             <Button
                               colorScheme={"teal"}
                               alignSelf="end"
+                              paddingInline={"2rem"}
                               marginLeft="auto"
                               onClick={() => assign("algo", thera)}
                             >
@@ -286,55 +507,61 @@ const UserHome = () => {
           >
             <Flex display={"column"} alignContent="center">
               <Box>
-                {therapist?.gender === "male" ? (
+                {therapist[0]?.gender === "male" ? (
                   <Image src={Boy} />
                 ) : (
                   <Image src={girlGlass} />
                 )}
               </Box>
               <Text fontSize={"1.3rem"} fontWeight={"bold"}>
-                Name:{therapist?.fullName}
+                Name:{therapist[0]?.fullName}
               </Text>
             </Flex>
-            <Box padding={"2rem"}>
+            <Flex flexDirection={"column"} gap={"2rem"} padding={"2rem"}>
               <Text fontSize={"1.3rem"} fontWeight={"bold"}>
-                Gender:{therapist?.gender}
-              </Text>
-              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
-                Age:{therapist?.age}
-              </Text>
-              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
-                Phone number:{therapist?.phoneno}
+                Speciality:{therapist[0]?.therapistDetails.speciality}
               </Text>
               <Text fontSize={"1.3rem"} fontWeight={"bold"}>
                 Mode of Communication:
-                {therapist?.therapistDetails.communicationType}
+                {therapist[0]?.therapistDetails.communicationType}
               </Text>
-              {/* <Text fontSize={"1.3rem"} fontWeight={"bold"}>
-                Discription:{therapist?.communication}
-              </Text> */}
-            </Box>
+
+              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
+                Patients handled:{therapist[0]?.usersAssigned.length}
+              </Text>
+              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
+                Gender:{therapist[0]?.gender}
+              </Text>
+              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
+                Age:{therapist[0]?.age}
+              </Text>
+              <Text fontSize={"1.3rem"} fontWeight={"bold"}>
+                Phone number:{therapist[0]?.phoneno}
+              </Text>
+            </Flex>
           </Box>
           <Text>
             Your Saathi will contact you soon or you can contact them yourselves
             with the information provided above.
           </Text>
-          <Box marginTop={"5rem"} padding={"2rem"}>
-            <Heading>
-              Blogs from our therapists you can discover in the meanwhile
-            </Heading>
-            {blogQuery?.data.response.map((blog) => {
-              return (
-                <BlogCard
-                  id={blog.blog._id}
-                  title={blog.blog.title}
-                  content={blog.blog.content}
-                  likes={blog.blog.likes}
-                  createdBy={blog.user.username}
-                />
-              );
-            })}
-          </Box>
+          {blogQuery?.data.response.length > 0 && (
+            <Box marginTop={"5rem"} padding={"2rem"}>
+              <Heading>
+                Blogs from our therapists you can discover in the meanwhile
+              </Heading>
+              {blogQuery?.data.response.map((blog) => {
+                return (
+                  <BlogCard
+                    id={blog.blog._id}
+                    title={blog.blog.title}
+                    content={blog.blog.content}
+                    likes={blog.blog.likes}
+                    createdBy={blog.user.username}
+                  />
+                );
+              })}
+            </Box>
+          )}
         </Box>
       )}
     </Box>

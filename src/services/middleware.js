@@ -57,7 +57,7 @@ function handleError(error, onError) {
     errorTitle = "Unauthorized, please login again.";
   }
 
-  window.alert(errorTitle);
+  // window.alert(errorTitle);
   if (onError) onError();
 }
 

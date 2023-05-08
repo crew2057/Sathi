@@ -23,11 +23,13 @@ const NavBar = React.forwardRef((props, ref) => {
     const event = (e) => {
       if (window.scrollY !== 0) {
         nav.current.style.position = "fixed";
-        nav.current.style.backgroundColor = "#e6ffcc";
+        nav.current.style.backgroundColor = "#00755E";
+        nav.current.style.color = "white";
       }
       if (window.scrollY === 0) {
         nav.current.style.position = "";
         nav.current.style.backgroundColor = "";
+        nav.current.style.color = "black";
       }
     };
     if (nav !== null) {

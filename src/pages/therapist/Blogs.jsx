@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
@@ -68,8 +68,9 @@ const TherapistBlogs = () => {
         </Box>
       </Box>
       <Box w={"90%"} margin="auto">
-        {blogs === "All"
-          ? blogQuery?.data.response.map((blog) => {
+        {blogQuery?.data.response?.length > 0 ? (
+          blogs === "All" ? (
+            blogQuery?.data.response.map((blog) => {
               return (
                 <BlogCard
                   id={blog.blog._id}
@@ -81,7 +82,8 @@ const TherapistBlogs = () => {
                 />
               );
             })
-          : blogQuery?.data.response
+          ) : (
+            blogQuery?.data.response
               .filter((blog) => {
                 return blog.user._id === user.id;
               })
@@ -97,7 +99,13 @@ const TherapistBlogs = () => {
                     createdBy={blg.user.username}
                   />
                 );
-              })}
+              })
+          )
+        ) : (
+          <Text fontSize={"2rem"} textAlign={"center"} marginTop={"10rem"}>
+            No Blogs avialable at the moment.
+          </Text>
+        )}
       </Box>
     </Box>
   );

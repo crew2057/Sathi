@@ -40,7 +40,7 @@ const BlogForm = () => {
       <Heading>Add Blogs</Heading>
       <Box
         padding="5rem"
-        width={"50%"}
+        width={"60%"}
         boxShadow={"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px "}
         borderRadius={"20px"}
       >

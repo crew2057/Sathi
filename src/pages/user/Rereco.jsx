@@ -12,7 +12,7 @@ export const Rerecommend = (props) => {
     gender: "",
     communicationType: "",
   });
-  const { user } = useContext(User);
+  const { user, setUser } = useContext(User);
   const onSubmit = async (e) => {
     e.preventDefault();
     const res = await Promise.all([
@@ -21,6 +21,10 @@ export const Rerecommend = (props) => {
       }),
     ]);
     if (res) {
+      setUser({
+        ...user,
+        therapistDetails: therapistDetails,
+      });
       props.setRecommend(false);
     }
   };
@@ -38,7 +42,15 @@ export const Rerecommend = (props) => {
           Saathi
         </Box>
       </Heading>
-
+      <Box>
+        <Text>Your Previous Preferences of a therapist was: </Text>
+        <Text>Gender:{user.therapistDetails.gender}</Text>
+        <Text>Age:{user.therapistDetails.age}</Text>
+        <Text>Speciality:{user.therapistDetails.speciality}</Text>
+        <Text>
+          Communication Type:{user.therapistDetails.communicationType}
+        </Text>
+      </Box>
       <Box w={"100%"} marginTop="2rem">
         <Grid templateColumns={"1fr"} gap="1rem">
           <Box

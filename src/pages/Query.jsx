@@ -223,7 +223,7 @@ export const Query = () => {
       );
     })[query.symptomQuery];
   };
-  console.log(query.symptomQuery);
+  console.log(therapistDetails);
 
   const renderQuestion = () => {
     return (
@@ -275,10 +275,16 @@ export const Query = () => {
                 return (
                   <QueryButton
                     selected={index === selected}
+                    key={therapistQuery[query.query1].title + option}
                     onClick={() => {
                       setSelected(index);
                       setTherapistdetails([
-                        ...therapistDetails,
+                        ...therapistDetails.filter((details) => {
+                          return (
+                            Object.keys(details)[0] !==
+                            therapistQuery[query.query1].title
+                          );
+                        }),
                         { [therapistQuery[query.query1].title]: option },
                       ]);
 

@@ -228,11 +228,9 @@ const Home = React.forwardRef((props, ref) => {
               </Heading>
               <Text fontSize={"1.5rem"}>
                 {" "}
-                Team of experienced therapists is trained in a variety of
-                approaches, including cognitive-behavioral therapy,
-                psychoanalytic therapy, and mindfulness-based therapy, and we
-                are committed to helping our clients achieve their therapeutic
-                goals.
+                Get recommended therapists that you are comfortable with and are
+                as your preferences and symptoms to help you throughout your
+                healing journey.
               </Text>
             </GridItem>
             <GridItem
@@ -243,11 +241,8 @@ const Home = React.forwardRef((props, ref) => {
               <Heading>Sessions Anywhere Anytime</Heading>
               <Text fontSize={"1.5rem"} zIndex={"1"}>
                 {" "}
-                Team of experienced therapists is trained in a variety of
-                approaches, including cognitive-behavioral therapy,
-                psychoanalytic therapy, and mindfulness- based therapy, and we
-                are c ommitted to helping our clients achieve their therapeutic
-                goals.
+                Get Access to your therapist from wherever you are and according
+                to your free time and need.
               </Text>
             </GridItem>
             <GridItem w="100%" pos={"relative"}>

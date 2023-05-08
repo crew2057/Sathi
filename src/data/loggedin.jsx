@@ -20,6 +20,7 @@ const UserContext = ({ children }) => {
       setUser({
         id: res.data.user._id,
         role: res.data.user.role,
+        therapistDetails: res.data.user.therapistDetails,
         likedBlogs: [...res.data.user.likedBlogs],
       });
 

@@ -32,7 +32,7 @@ const BlogCard = ({
   const [view, setView] = useState(false);
   const [newLikes, setNewLikes] = useState(likes);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user } = useContext(User);
+  const { user, setUser } = useContext(User);
   const toast = useToast();
   useEffect(() => {
     user.likedBlogs.forEach((blog) => {
@@ -75,7 +75,18 @@ const BlogCard = ({
           ? "liked"
           : "onload"
       );
-
+      setUser((use) => {
+        return {
+          ...use,
+          likedBlogs:
+            liked === "onload" || liked === "liked"
+              ? use.likedBlogs.filter((blg) => {
+                  return blg !== id;
+                })
+              : [...use.likedBlogs, id],
+        };
+      });
+     
       console.log(res);
     }
   };
