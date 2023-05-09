@@ -42,22 +42,35 @@ export const Rerecommend = (props) => {
           Saathi
         </Box>
       </Heading>
-      <Box>
-        <Text>Your Previous Preferences of a therapist was: </Text>
-        <Text>Gender:{user.therapistDetails.gender}</Text>
-        <Text>Age:{user.therapistDetails.age}</Text>
-        <Text>Speciality:{user.therapistDetails.speciality}</Text>
-        <Text>
-          Communication Type:{user.therapistDetails.communicationType}
-        </Text>
-      </Box>
-      <Box w={"100%"} marginTop="2rem">
+      <Button
+        marginTop={"0.5rem"}
+        colorScheme="teal"
+        onClick={() => props.setRecommend(false)}
+      >
+        Back
+      </Button>
+      <Box
+        w="50%"
+        padding={"2rem"}
+        marginInline={"auto"}
+        boxShadow={"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px "}
+      >
         <Grid templateColumns={"1fr"} gap="1rem">
+          <Box>
+            <Text fontSize={"1.4rem"} fontWeight={"bold"}>
+              Your previous preferences for a therapist were:{" "}
+            </Text>
+
+            <Text>Gender:{user.therapistDetails.gender}</Text>
+            <Text>Age:{user.therapistDetails.age}</Text>
+            <Text>Speciality:{user.therapistDetails.speciality}</Text>
+            <Text>
+              Communication Type:{user.therapistDetails.communicationType}
+            </Text>
+          </Box>
           <Box
             border="1px solid black"
             borderRadius="1.5rem"
-            w="75%"
-            margin={"auto"}
             padding="0.3em 2em 0.5em 0.5em"
           >
             <Text fontSize="1rem">
@@ -103,8 +116,6 @@ export const Rerecommend = (props) => {
           <Box
             border="1px solid black"
             borderRadius="1.5rem"
-            w="75%"
-            margin={"auto"}
             padding="0.3em 2em 0.5em 0.5em"
           >
             <Text fontSize="1rem">
@@ -132,8 +143,6 @@ export const Rerecommend = (props) => {
           <Box
             border="1px solid black"
             borderRadius="1.5rem"
-            w="75%"
-            margin={"auto"}
             padding="0.3em 2em 0.5em 0.5em"
           >
             <Text fontSize="1rem">
@@ -160,8 +169,6 @@ export const Rerecommend = (props) => {
           <Box
             border="1px solid black"
             borderRadius="1.5rem"
-            w="75%"
-            margin={"auto"}
             padding="0.3em 2em 0.5em 0.5em"
           >
             <Text fontSize="1rem">
@@ -194,7 +201,6 @@ export const Rerecommend = (props) => {
         <Button
           padding={"1.5rem 2rem"}
           marginTop={"2rem"}
-          marginLeft="45%"
           marginBottom={"3rem"}
           borderRadius="1.5em"
           bgColor={"#9fe7ab"}

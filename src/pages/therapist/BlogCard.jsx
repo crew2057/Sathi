@@ -29,10 +29,11 @@ const BlogCard = ({
   blogQuery,
 }) => {
   const [liked, setLiked] = useState("notliked");
+
   const [view, setView] = useState(false);
   const [newLikes, setNewLikes] = useState(likes);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, setUser } = useContext(User);
+  const { user } = useContext(User);
   const toast = useToast();
   useEffect(() => {
     user.likedBlogs.forEach((blog) => {
@@ -48,13 +49,13 @@ const BlogCard = ({
         setNewLikes(likes - 1);
         break;
       case "liked":
-        setNewLikes((newlike) => newlike - 1);
+        setNewLikes((newLike) => newLike - 1);
         break;
       case "unliked":
-        setNewLikes(likes);
+        setNewLikes(likes + 1);
         break;
       case "notliked":
-        setNewLikes(likes + 1);
+        setNewLikes((newLike) => newLike + 1);
         break;
       default:
         break;
@@ -66,28 +67,21 @@ const BlogCard = ({
       user: user.id,
     });
     if (res) {
-      setLiked((like) =>
-        like === "onload"
-          ? "unliked"
-          : like === "liked"
-          ? "notliked"
-          : like === "notliked"
-          ? "liked"
-          : "onload"
-      );
-      setUser((use) => {
-        return {
-          ...use,
-          likedBlogs:
-            liked === "onload" || liked === "liked"
-              ? use.likedBlogs.filter((blg) => {
-                  return blg !== id;
-                })
-              : [...use.likedBlogs, id],
-        };
+      setLiked((like) => {
+        switch (like) {
+          case "onload":
+            return "unliked";
+          case "unliked":
+            return "onload";
+          case "liked":
+            return "notliked";
+          case "notliked":
+            return "liked";
+          default:
+            return;
+        }
       });
-     
-      console.log(res);
+      blogQuery.refetch();
     }
   };
   const handleDelete = async () => {

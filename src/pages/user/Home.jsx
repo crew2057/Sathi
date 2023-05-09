@@ -63,6 +63,15 @@ const UserHome = () => {
       }
     }
   };
+  const unassign = async () => {
+    const res = await post("/user/unassign", {
+      id: user.id,
+    });
+    if (res) {
+      setTherapistAssigned(false);
+    }
+  };
+
   const getAssigned = useCallback(async () => {
     if (user.id && !recommend) {
       const res = await Promise.all([get(`/user/therapist/${user.id}`)]);
@@ -74,7 +83,7 @@ const UserHome = () => {
   }, [user.id, recommend]);
 
   useEffect(() => {
-    if (!therapistAssigned && !recommend && !therapistAssigned) {
+    if (!therapistAssigned && !recommend) {
       init();
     } else {
       getAssigned();
@@ -126,7 +135,10 @@ const UserHome = () => {
                     </Box>
                     that we recommend you to your preferences
                   </Heading>
-
+                  <Text>
+                    These therapists are recommended to you on the basis of your
+                    preferences that you mentioned.
+                  </Text>
                   {/* <UserCard data={therapist} /> */}
                   {therapist?.length > 1 ? (
                     <Box
@@ -135,26 +147,31 @@ const UserHome = () => {
                       padding="3rem"
                       gap="2rem"
                       borderRadius={"1rem"}
-                      boxShadow={"rgba(100, 100, 111, 0.2) 0px 7px 29px 20px "}
+                      boxShadow={"rgba(100, 100, 111, 0.2) 0px 7px 29px 5px "}
                     >
-                      {therapist?.map((ther, index) => {
-                        return (
-                          <Box
-                            key={ther + index}
-                            display={"flex"}
-                            marginTop={"1rem"}
-                            flexDirection={"column"}
-                            borderRadius="1rem"
-                            minW="fit-content"
-                            gap={"1rem"}
-                            padding="2rem"
-                            pos={"relative"}
-                            boxShadow={
-                              "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px "
-                            }
-                          >
-                            {ther?.therapistDetails.speciality ===
-                              user.therapistDetails.speciality && (
+                      {therapist
+                        ?.filter((ther) => {
+                          return (
+                            ther?.therapistDetails.speciality ===
+                            user.therapistDetails.speciality
+                          );
+                        })
+                        .map((spTher, index) => {
+                          return (
+                            <Box
+                              key={spTher + index}
+                              display={"flex"}
+                              marginTop={"1rem"}
+                              flexDirection={"column"}
+                              borderRadius="1rem"
+                              minW="fit-content"
+                              gap={"1rem"}
+                              padding="2rem"
+                              pos={"relative"}
+                              boxShadow={
+                                "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px "
+                              }
+                            >
                               <Box
                                 pos={"absolute"}
                                 top={"-30px"}
@@ -167,85 +184,187 @@ const UserHome = () => {
                                   specialization.
                                 </Text>
                               </Box>
-                            )}
-                            <Flex minWidth="100px">
-                              <Flex display={"column"}>
-                                <Box>
-                                  {ther?.gender === "male" ? (
-                                    <Image src={Boy} h="15rem" />
-                                  ) : (
-                                    <Image src={girlGlass} h="15rem" />
-                                  )}
-                                </Box>
-                                <Box fontSize={"1rem"}>
-                                  <Text fontWeight={"bold"} as={"span"}>
+
+                              <Flex minWidth="100px">
+                                <Flex display={"column"}>
+                                  <Box>
+                                    {spTher?.gender === "male" ? (
+                                      <Image src={Boy} h="15rem" />
+                                    ) : (
+                                      <Image src={girlGlass} h="15rem" />
+                                    )}
+                                  </Box>
+                                  <Box fontSize={"1rem"}>
+                                    <Text fontWeight={"bold"} as={"span"}>
+                                      {" "}
+                                      Name:
+                                    </Text>
+                                    {spTher?.fullName}
+                                  </Box>
+                                </Flex>
+                                <Flex
+                                  display={"column"}
+                                  gap="2rem"
+                                  flexShrink={0}
+                                  padding={"2rem"}
+                                >
+                                  <Box>
+                                    <Text fontWeight={"bold"} as={"span"}>
+                                      {" "}
+                                      Speciality:
+                                    </Text>
+                                    {spTher?.therapistDetails.speciality}
+                                  </Box>
+                                  <Box>
+                                    <Text fontWeight={"bold"} as={"span"}>
+                                      {" "}
+                                      Mode of Communication:{" "}
+                                    </Text>
+                                    {spTher?.therapistDetails.communicationType}
+                                  </Box>
+                                  <Box>
                                     {" "}
-                                    Name:
-                                  </Text>
-                                  {ther?.fullName}
-                                </Box>
+                                    <Text fontWeight={"bold"} as={"span"}>
+                                      Username:{" "}
+                                    </Text>
+                                    {spTher?.username}
+                                  </Box>
+                                  <Box>
+                                    {" "}
+                                    <Text fontWeight={"bold"} as={"span"}>
+                                      Gender:{" "}
+                                    </Text>
+                                    {spTher?.gender}
+                                  </Box>
+                                  <Box>
+                                    {" "}
+                                    <Text fontWeight={"bold"} as={"span"}>
+                                      Age:{" "}
+                                    </Text>
+                                    {spTher?.age}
+                                  </Box>
+                                  <Box>
+                                    <Text fontWeight={"bold"} as={"span"}>
+                                      Patients handled:{" "}
+                                    </Text>
+                                    {spTher?.usersAssigned.length}
+                                  </Box>
+                                </Flex>
                               </Flex>
-                              <Flex
-                                display={"column"}
-                                gap="2rem"
-                                flexShrink={0}
-                                padding={"2rem"}
+                              <Button
+                                colorScheme={"teal"}
+                                alignSelf="end"
+                                paddingInline={"2rem"}
+                                marginLeft="auto"
+                                onClick={() => assign("query", spTher)}
                               >
-                                <Box>
-                                  <Text fontWeight={"bold"} as={"span"}>
-                                    {" "}
-                                    Speciality:
-                                  </Text>
-                                  {ther?.therapistDetails.speciality}
-                                </Box>
-                                <Box>
-                                  <Text fontWeight={"bold"} as={"span"}>
-                                    {" "}
-                                    Mode of Communication:{" "}
-                                  </Text>
-                                  {ther?.therapistDetails.communicationType}
-                                </Box>
-                                <Box>
-                                  {" "}
-                                  <Text fontWeight={"bold"} as={"span"}>
-                                    Username:{" "}
-                                  </Text>
-                                  {ther?.username}
-                                </Box>
-                                <Box>
-                                  {" "}
-                                  <Text fontWeight={"bold"} as={"span"}>
-                                    Gender:{" "}
-                                  </Text>
-                                  {ther?.gender}
-                                </Box>
-                                <Box>
-                                  {" "}
-                                  <Text fontWeight={"bold"} as={"span"}>
-                                    Age:{" "}
-                                  </Text>
-                                  {ther?.age}
-                                </Box>
-                                <Box>
-                                  <Text fontWeight={"bold"} as={"span"}>
-                                    Patients handled:{" "}
-                                  </Text>
-                                  {ther?.usersAssigned.length}
-                                </Box>
-                              </Flex>
-                            </Flex>
-                            <Button
-                              colorScheme={"teal"}
-                              alignSelf="end"
-                              paddingInline={"2rem"}
-                              marginLeft="auto"
-                              onClick={() => assign("query", ther)}
+                                Proceed
+                              </Button>
+                            </Box>
+                          );
+                        })}
+
+                      {therapist
+                        ?.filter((ther) => {
+                          return (
+                            ther?.therapistDetails.speciality !==
+                            user.therapistDetails.speciality
+                          );
+                        })
+                        .map((ther, index) => {
+                          return (
+                            <Box
+                              key={ther + index}
+                              display={"flex"}
+                              marginTop={"1rem"}
+                              flexDirection={"column"}
+                              borderRadius="1rem"
+                              minW="fit-content"
+                              gap={"1rem"}
+                              padding="2rem"
+                              pos={"relative"}
+                              boxShadow={
+                                "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px "
+                              }
                             >
-                              Proceed
-                            </Button>
-                          </Box>
-                        );
-                      })}
+                              <Flex minWidth="100px">
+                                <Flex display={"column"}>
+                                  <Box>
+                                    {ther?.gender === "male" ? (
+                                      <Image src={Boy} h="15rem" />
+                                    ) : (
+                                      <Image src={girlGlass} h="15rem" />
+                                    )}
+                                  </Box>
+                                  <Box fontSize={"1rem"}>
+                                    <Text fontWeight={"bold"} as={"span"}>
+                                      {" "}
+                                      Name:
+                                    </Text>
+                                    {ther?.fullName}
+                                  </Box>
+                                </Flex>
+                                <Flex
+                                  display={"column"}
+                                  gap="2rem"
+                                  flexShrink={0}
+                                  padding={"2rem"}
+                                >
+                                  <Box>
+                                    <Text fontWeight={"bold"} as={"span"}>
+                                      {" "}
+                                      Speciality:
+                                    </Text>
+                                    {ther?.therapistDetails.speciality}
+                                  </Box>
+                                  <Box>
+                                    <Text fontWeight={"bold"} as={"span"}>
+                                      {" "}
+                                      Mode of Communication:{" "}
+                                    </Text>
+                                    {ther?.therapistDetails.communicationType}
+                                  </Box>
+                                  <Box>
+                                    {" "}
+                                    <Text fontWeight={"bold"} as={"span"}>
+                                      Username:{" "}
+                                    </Text>
+                                    {ther?.username}
+                                  </Box>
+                                  <Box>
+                                    {" "}
+                                    <Text fontWeight={"bold"} as={"span"}>
+                                      Gender:{" "}
+                                    </Text>
+                                    {ther?.gender}
+                                  </Box>
+                                  <Box>
+                                    {" "}
+                                    <Text fontWeight={"bold"} as={"span"}>
+                                      Age:{" "}
+                                    </Text>
+                                    {ther?.age}
+                                  </Box>
+                                  <Box>
+                                    <Text fontWeight={"bold"} as={"span"}>
+                                      Patients handled:{" "}
+                                    </Text>
+                                    {ther?.usersAssigned.length}
+                                  </Box>
+                                </Flex>
+                              </Flex>
+                              <Button
+                                colorScheme={"teal"}
+                                alignSelf="end"
+                                paddingInline={"2rem"}
+                                marginLeft="auto"
+                                onClick={() => assign("query", ther)}
+                              >
+                                Proceed
+                              </Button>
+                            </Box>
+                          );
+                        })}
                     </Box>
                   ) : therapist.length === 1 ? (
                     <Box
@@ -348,6 +467,12 @@ const UserHome = () => {
                   {algoTherapist?.length > 0 && (
                     <Box>
                       <Heading>Similar therapists you can check</Heading>
+                      <Text>
+                        These therapists are recommended to you on the basis of
+                        the symptoms that you have mentioned such that they are
+                        right between your needs of preferences and your
+                        symptoms .
+                      </Text>
                       {algoTherapist?.map((thera, index) => {
                         return (
                           <Box
@@ -544,8 +669,15 @@ const UserHome = () => {
             Your Saathi will contact you soon or you can contact them yourselves
             with the information provided above.
           </Text>
+          <Text marginTop={"1rem"}>
+            Dont like the therapist and want to reassign a therapist to
+            yourself?
+          </Text>
+          <Button colorScheme="orange" onClick={unassign}>
+            re-assign
+          </Button>
           {blogQuery?.data.response.length > 0 && (
-            <Box marginTop={"5rem"} padding={"2rem"}>
+            <Box marginTop={"2rem"} padding={"2rem"}>
               <Heading>
                 Blogs from our therapists you can discover in the meanwhile
               </Heading>
@@ -553,7 +685,9 @@ const UserHome = () => {
                 return (
                   <BlogCard
                     id={blog.blog._id}
+                    key={blog.blog._id}
                     title={blog.blog.title}
+                    blogQuery={blogQuery}
                     content={blog.blog.content}
                     likes={blog.blog.likes}
                     createdBy={blog.user.username}

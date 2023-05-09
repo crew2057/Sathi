@@ -73,8 +73,10 @@ const TherapistBlogs = () => {
             blogQuery?.data.response.map((blog) => {
               return (
                 <BlogCard
+                  key={blog.blog._id}
                   id={blog.blog._id}
                   title={blog.blog.title}
+                  blogQuery={blogQuery}
                   remove={false}
                   content={blog.blog.content}
                   likes={blog.blog.likes}
@@ -90,6 +92,7 @@ const TherapistBlogs = () => {
               .map((blg) => {
                 return (
                   <BlogCard
+                    key={blg.blog._id}
                     id={blg.blog._id}
                     blogQuery={blogQuery}
                     remove={true}
