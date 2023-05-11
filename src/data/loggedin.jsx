@@ -43,7 +43,7 @@ const UserContext = ({ children }) => {
 
   return (
     <User.Provider
-      value={{ user, setUser, therapistAssigned, setTherapistAssigned }}
+      value={{ user, setUser, therapistAssigned, setTherapistAssigned, init }}
     >
       {children}
     </User.Provider>

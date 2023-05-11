@@ -171,7 +171,7 @@ const Home = React.forwardRef((props, ref) => {
           bgRepeat={"no-repeat"}
           bgColor="#81E2A8"
           position={"relative"}
-          zIndex={"-1"}
+          zIndex={"-10"}
           _before={{
             content: '""',
             position: "absolute",
@@ -187,12 +187,11 @@ const Home = React.forwardRef((props, ref) => {
           _after={{
             content: '""',
             position: "absolute",
-
             bottom: "-20px",
-            zIndex: "-1",
+            zIndex: "9999",
             width: "100%",
             bgImage: `url(${orange3})`,
-            height: "40vh",
+            height: "44vh",
             bgPosition: "bottom center ",
             bgSize: "cover",
             bgRepeat: "no-repeat",
@@ -212,7 +211,6 @@ const Home = React.forwardRef((props, ref) => {
             w="75%"
             margin={"auto"}
             gridTemplateColumns={"1fr 1fr"}
-            zIndex={"3"}
             gridTemplateRows="1fr 1fr"
           >
             <GridItem>
@@ -260,7 +258,7 @@ const Home = React.forwardRef((props, ref) => {
           color="white"
           position={"relative"}
           bgImage={Footer1}
-          bgPos={" -300px bottom"}
+          bgPos={"-300px bottom"}
           bgSize="130vw"
           _before={{
             content: '""',
@@ -268,10 +266,11 @@ const Home = React.forwardRef((props, ref) => {
             top: "-20px",
             width: "100%",
             bgImage: `url(${orange3})`,
-            height: "40vh",
+            height: "44vh",
             transform: "rotate(180deg)",
             bgPosition: "bottom center ",
             bgSize: "cover",
+            zIndex: 10,
             bgRepeat: "no-repeat",
           }}
           bgRepeat={"no-repeat"}

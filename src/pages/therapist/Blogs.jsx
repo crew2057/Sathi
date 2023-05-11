@@ -40,7 +40,9 @@ const TherapistBlogs = () => {
               variant={"outline"}
               bgColor={blogs === "All" && "#9fe7ab"}
               color={blogs === "All" && "white"}
-              onClick={() => setBlogs("All")}
+              onClick={() => {
+                setBlogs("All");
+              }}
             >
               All Blogs
             </Button>
@@ -48,7 +50,9 @@ const TherapistBlogs = () => {
               variant={"outline"}
               bgColor={blogs === "Self" && "#9fe7ab"}
               color={blogs === "Self" && "white"}
-              onClick={() => setBlogs("Self")}
+              onClick={() => {
+                setBlogs("Self");
+              }}
             >
               Your Blogs
             </Button>

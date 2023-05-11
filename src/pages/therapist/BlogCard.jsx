@@ -33,7 +33,7 @@ const BlogCard = ({
   const [view, setView] = useState(false);
   const [newLikes, setNewLikes] = useState(likes);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user } = useContext(User);
+  const { user, init } = useContext(User);
   const toast = useToast();
   useEffect(() => {
     user.likedBlogs.forEach((blog) => {
@@ -82,6 +82,7 @@ const BlogCard = ({
         }
       });
       blogQuery.refetch();
+      init();
     }
   };
   const handleDelete = async () => {

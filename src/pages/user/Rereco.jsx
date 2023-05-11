@@ -203,7 +203,7 @@ export const Rerecommend = (props) => {
           marginTop={"2rem"}
           marginBottom={"3rem"}
           borderRadius="1.5em"
-          bgColor={"#9fe7ab"}
+          colorScheme="teal"
           fontSize={"1.5rem"}
           color="white"
           type="submit"
