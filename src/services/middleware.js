@@ -57,7 +57,7 @@ function handleError(error, onError) {
     errorTitle = "Unauthorized, please login again.";
   }
 
-  // window.alert(errorTitle);
+  window.alert(errorTitle);
   if (onError) onError();
 }
 
@@ -74,7 +74,9 @@ export async function post(url, body, headers, onError) {
 
     return res && res;
   } catch (error) {
-    handleError(error, onError);
+    console.log(error.status.data.message);
+
+    // onError();
   }
 }
 export async function put(url, body, headers, onError) {

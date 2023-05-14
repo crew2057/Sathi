@@ -18,6 +18,7 @@ import { FcLike, FcLikePlaceholder } from "react-icons/fc";
 import { MdOutlineDelete } from "react-icons/md";
 import { del, put } from "../../services/middleware";
 import { User } from "../../data/loggedin";
+import MDEditor from "@uiw/react-md-editor";
 
 const BlogCard = ({
   id,
@@ -112,13 +113,17 @@ const BlogCard = ({
       borderRadius={"40px"}
     >
       <Heading fontSize={"2rem"}>{title}</Heading>
-      <Text fontSize={"1.2rem"}>
-        {view
-          ? content
-          : content.length > 40
-          ? content.slice(0, 40) + "..."
-          : content}
-      </Text>
+      <MDEditor.Markdown
+        source={
+          view
+            ? content
+            : content.length > 40
+            ? content.slice(0, 40) + "..."
+            : content
+        }
+        style={{ whiteSpace: "pre-wrap" }}
+      />
+
       <Text
         _hover={{
           color: "green.200",

@@ -36,15 +36,14 @@ import { useInView } from "react-intersection-observer";
 const AccordionComp = (props) => {
   return (
     <AccordionItem padding={"0.5rem"}>
-      <h2>
-        <AccordionButton>
-          <Box as="span" flex="1" fontSize={"1.75rem"} textAlign="left">
-            {props.title}
-          </Box>
-          <AccordionIcon />
-        </AccordionButton>
-      </h2>
-      <AccordionPanel pb={4} fontSize={"1.5rem"}>
+      <AccordionButton>
+        <Box as="span" flex="1" fontSize={["1rem", "1.75rem"]} textAlign="left">
+          {props.title}
+        </Box>
+        <AccordionIcon />
+      </AccordionButton>
+
+      <AccordionPanel pb={4} fontSize={["1rem", "1.25rem"]}>
         {props.content}
       </AccordionPanel>
     </AccordionItem>
@@ -79,7 +78,9 @@ const Home = React.forwardRef((props, ref) => {
         bgSize="cover"
         bgRepeat={"no-repeat"}
       >
-        <Heading fontSize={"6rem"}>A PLACE FOR HEALING</Heading>
+        <Heading fontSize={["2rem", "3rem", "4rem", "6rem"]}>
+          A PLACE FOR HEALING
+        </Heading>
         <Heading>Looking for Therapy?</Heading>
         <Button
           bgColor={"#85d492"}
@@ -88,84 +89,93 @@ const Home = React.forwardRef((props, ref) => {
           onClick={() => {
             navigate("/query");
           }}
-          fontSize={"2rem"}
+          fontSize={["1.5rem", "2rem", "2rem"]}
           padding={"2rem 3rem"}
         >
           Discover
         </Button>
       </Box>
       {/* section 2 */}
-      <Flex
-        h={"95vh"}
+      <Box
+        h={["95vh", "80vh", "80vh", "95vh"]}
         w="100vw"
+        display={["flex"]}
+        flexDirection={["column", "column", "", "row"]}
         bgColor={"#F3F3C7"}
         position="relative"
         bg="rgb(212,245,182)
-        
      linear-gradient(193deg, rgba(212,245,182,1) 0%, rgba(243,243,199,1) 67%) "
         _after={{
           content: '""',
           position: "absolute",
           bottom: "-50px",
+          left: 0,
+          padding: "0",
+          margin: 0,
           zIndex: "1",
           width: "100%",
           bgImage: `url(${orange1})`,
-          height: "45vh",
-          bgPosition: "bottom  100px",
+          height: "42vh",
+          bgPosition: "bottom 200px",
           bgSize: "cover",
           bgRepeat: "no-repeat",
         }}
       >
-        <Box w={"40%"} position="relative">
+        <Box w={["40%"]} h={["20vh", "", ""]} position="relative">
           <Image
             position={"absolute"}
-            top="10vh"
-            left={"10vw"}
+            top={["8vh", "8vh", "", "10vh"]}
+            left={["8vw", "8vw", "", "10vw"]}
             src={Boy}
           ></Image>
           <Image
             position={"absolute"}
-            top="30vh"
-            left={"10vw"}
+            top={["10vh", "10vh", "", "30vh"]}
+            left={["55vw", "55vw", "", "10vw"]}
             src={girlGlass}
           ></Image>
           <Image
             position={"absolute"}
-            top="23vh"
-            left={"20vw"}
+            top={["10vh", "10vh", "", "23vh"]}
+            left={["32vw", "32vw", "", "20vw"]}
             src={girlDoc}
           ></Image>
         </Box>
 
         <Box
-          w={"50%"}
+          w={["100%", "100%", "", "50%"]}
           h="100%"
           padding="1rem"
           zIndex={"2"}
           className={viewAbout ? "home" : ""}
           ref={About}
         >
-          <Flex flexDirection={"column"} marginTop="30%" gap={"1rem"}>
-            <Heading fontSize={"4rem"}>
+          <Flex
+            flexDirection={"column"}
+            marginTop={["30%", "25%", "25%", "20%"]}
+            padding={"2rem"}
+            gap={"1rem"}
+          >
+            <Heading fontSize={["1.5rem", "2rem", "", "4rem"]}>
               Professional Therapists whom you can trust.{" "}
             </Heading>
-            <Text fontSize={"1.5rem"}>
+            <Text fontSize={["1rem", "1rem", "", "1.5rem"]}>
               Team of experienced therapists is trained in a variety of
               approaches, including cognitive-behavioral therapy, psychoanalytic
               therapy, and mindfulness-based therapy, and we are committed to
               helping our clients achieve their therapeutic goals.
             </Text>
-            <Button color={"white"} w={"15%"} bgColor="#9FE7AB">
+            <Button color={"white"} maxW={"fit-content"} bgColor="#9FE7AB">
               {" "}
               Get Started{" "}
             </Button>
           </Flex>
         </Box>
-      </Flex>
+      </Box>
       {/* Section 3 */}
       <Box h={"200vh"} w="100vw" position={"relative"}>
         <Box
-          h={"160vh"}
+          h={["200vh", "160vh", "150vh", "160vh"]}
           w="100vw"
           bgSize="100vw"
           bgRepeat={"no-repeat"}
@@ -210,55 +220,72 @@ const Home = React.forwardRef((props, ref) => {
           <Grid
             w="75%"
             margin={"auto"}
-            gridTemplateColumns={"1fr 1fr"}
-            gridTemplateRows="1fr 1fr"
+            gap={"1rem"}
+            gridTemplateColumns={["1fr", "1fr 1fr", "", "1fr 1fr"]}
+            gridTemplateRows={["auto", "1fr 1fr", "1fr 1fr", "1fr 1fr"]}
           >
-            <GridItem>
+            <GridItem alignSelf={"center"}>
               <Image src={chatting} />
             </GridItem>
             <GridItem
-              paddingBlock={"8rem"}
               ref={featureRef1}
+              paddingTop={["1rem", "9rem"]}
+              paddingInline={["1rem"]}
+              alignSelf={"center"}
               className={view1 ? "home" : ""}
             >
-              <Heading>
+              <Heading fontSize={["1.3rem", "1.5rem", "1.5rem", "1.5rem"]}>
                 Get Therapists recommended to your choices and needs
               </Heading>
-              <Text fontSize={"1.5rem"}>
+              <Text fontSize={["1.2rem", "1rem", "1.5rem"]}>
                 {" "}
                 Get recommended therapists that you are comfortable with and are
                 as your preferences and symptoms to help you throughout your
                 healing journey.
               </Text>
             </GridItem>
-            <GridItem
-              paddingBlock={"5rem"}
-              className={view2 ? "home" : ""}
-              ref={featureRef2}
+
+            <Box
+              display={["flex", "flex", "grid", "grid"]}
+              flexDirection={"column-reverse"}
+              gridTemplateColumns={"1fr 1fr"}
+              gridTemplateRows={["auto", "1fr 1fr", "1fr 1fr", "1fr 1fr"]}
+              padding={"1rem"}
+              gridColumn={["", "1/3"]}
+              marginTop="1rem"
+              w="100%"
             >
-              <Heading>Sessions Anywhere Anytime</Heading>
-              <Text fontSize={"1.5rem"} zIndex={"1"}>
-                {" "}
-                Get Access to your therapist from wherever you are and according
-                to your free time and need.
-              </Text>
-            </GridItem>
-            <GridItem w="100%" pos={"relative"}>
-              <Image pos={"absolute"} top="10vh" src={sittingchat} />
-              <Image pos={"absolute"} left="10vw" src={phone} />
-            </GridItem>
+              <GridItem
+                className={view2 ? "home" : ""}
+                fontSize={["1rem", "1rem", "1rem", "1.5rem"]}
+                ref={featureRef2}
+              >
+                <Heading fontSize={["1.3rem", "1.5rem", "1.5rem", "1.5rem"]}>
+                  Sessions Anywhere Anytime
+                </Heading>
+                <Text fontSize={["1.2rem", "1rem", "1.5rem"]} zIndex={"1"}>
+                  {" "}
+                  Get Access to your therapist from wherever you are and
+                  according to your free time and need.
+                </Text>
+              </GridItem>
+              <GridItem w="100%" pos={"relative"} alignSelf={"center"}>
+                <Image src={sittingchat} />
+                <Image pos={"absolute"} top="-10" left="10vw" src={phone} />
+              </GridItem>
+            </Box>
           </Grid>
         </Box>
 
         {/* section4 */}
         <Box
-          w={"100vw"}
-          h="150vh"
+          w={"100%"}
+          h="160vh"
           bgColor="#17706E"
           color="white"
           position={"relative"}
           bgImage={Footer1}
-          bgPos={"-300px bottom"}
+          bgPos={"bottom "}
           bgSize="130vw"
           _before={{
             content: '""',
@@ -284,9 +311,9 @@ const Home = React.forwardRef((props, ref) => {
             Frequently Asked Questions
           </Heading>
           <Box
-            w="50%"
+            w={["100%", "75%", "70%", "50%"]}
             id="faq"
-            h={"80%"}
+            h={["50%", "80%"]}
             zIndex={3}
             isolation="isolate"
             margin={"auto"}
@@ -370,20 +397,30 @@ const Home = React.forwardRef((props, ref) => {
           </Box>
           <Image
             src={CroodSitting}
+            height={["20vh", "25vh", "30vh", "40vh"]}
             zIndex={10}
-            top={"30%"}
+            left={["-5", ""]}
+            top={["15%", "5%"]}
             position="absolute"
           />
           <Image
             src={CroodStanding}
-            top="55%"
-            right={"8%"}
+            height={["35vh", "30vh", "40vh", "65vh"]}
+            top={["22%", "55%"]}
+            zIndex={0}
+            right={["-5%", "5%"]}
             position="absolute"
           />
         </Box>
         {/* section 5 footer */}
 
-        <Box bgColor={"#701717"} height="30vh" w={"100vw"} color="white"></Box>
+        <Box
+          bgColor={"#701717"}
+          margin={0}
+          height="30vh"
+          w={"100vw"}
+          color="white"
+        ></Box>
       </Box>
     </motion.div>
   );

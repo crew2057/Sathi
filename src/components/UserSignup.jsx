@@ -1,10 +1,18 @@
-import { Box, Button, Grid, Input, Select, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Grid,
+  Input,
+  Select,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import { post } from "../services/middleware";
 import { Auth } from "../data/auth";
+import axios from "axios";
 export const UserSignup = (props) => {
   const {
     handleSubmit,
@@ -14,24 +22,35 @@ export const UserSignup = (props) => {
 
   const navigate = useNavigate();
   const { setAuth } = useContext(Auth);
+  const toast = useToast();
   const onSubmit = async (values) => {
-    const res = await post("http://localhost:5000/user/", {
-      ...values,
-      userSymptoms: props.data.symptoms,
-      therapistDetails: {
-        communicationType: Object.values(props?.data.therapist[0])[0],
-        gender: Object.values(props?.data.therapist[1])[0],
-        age: Object.values(props?.data.therapist[2])[0],
-        speciality: Object.values(props?.data.therapist[3])[0],
-      },
-      role: "user",
-    });
-    if (res.status === 200) {
-      console.log(res);
-      localStorage.setItem("Stoken", res.data.token);
-      localStorage.setItem("userId", res.data.id);
-      setAuth(true);
-      navigate("/home");
+    try {
+      const res = await axios.post("http://localhost:5000/user/", {
+        ...values,
+        userSymptoms: props.data.symptoms,
+        therapistDetails: {
+          communicationType: Object.values(props?.data.therapist[0])[0],
+          gender: Object.values(props?.data.therapist[1])[0],
+          age: Object.values(props?.data.therapist[2])[0],
+          speciality: Object.values(props?.data.therapist[3])[0],
+        },
+        role: "user",
+      });
+
+      if (res.status === 200) {
+        console.log(res);
+        localStorage.setItem("Stoken", res.data.token);
+        localStorage.setItem("userId", res.data.id);
+        setAuth(true);
+        navigate("/home");
+      }
+    } catch (error) {
+      toast({
+        status: "error",
+        description: error.response.data.message,
+        duration: 1000,
+        position: "top",
+      });
     }
   };
   return (
@@ -42,7 +61,7 @@ export const UserSignup = (props) => {
             border={errors.username ? "1px solid red" : "1px solid black"}
             pos="relative"
             borderRadius="1.5rem"
-            w="75%"
+            minW={["90%", "85%", "80%", "75%"]}
             margin={"auto"}
             padding="0.3em 2em 0.5em 0.5em"
           >
@@ -70,7 +89,7 @@ export const UserSignup = (props) => {
             border={errors.age ? "1px solid red" : "1px solid black"}
             pos="relative"
             borderRadius="1.5rem"
-            w="75%"
+            minW={["90%", "85%", "80%", "75%"]}
             margin={"auto"}
             padding="0.3em 2em 0.5em 0.5em"
           >
@@ -99,7 +118,7 @@ export const UserSignup = (props) => {
             border={errors.gender ? "1px solid red" : "1px solid black"}
             pos="relative"
             borderRadius="1.5rem"
-            w="75%"
+            minW={["90%", "85%", "80%", "75%"]}
             margin={"auto"}
             padding="0.3em 2em 0.5em 0.5em"
           >
@@ -132,7 +151,7 @@ export const UserSignup = (props) => {
             border={errors.email ? "1px solid red" : "1px solid black"}
             pos="relative"
             borderRadius="1.5rem"
-            w="75%"
+            minW={["90%", "85%", "80%", "75%"]}
             margin={"auto"}
             padding="0.3em 2em 0.5em 0.5em"
           >
@@ -167,7 +186,7 @@ export const UserSignup = (props) => {
             border={errors.password ? "1px solid red" : "1px solid black"}
             pos="relative"
             borderRadius="1.5rem"
-            w="75%"
+            minW={["90%", "85%", "80%", "75%"]}
             margin={"auto"}
             padding="0.2em 2em 0.5em 0.5em"
           >
@@ -194,9 +213,9 @@ export const UserSignup = (props) => {
           </Box>
         </Grid>
         <Button
-          padding={"1.5rem 2rem"}
+          padding={["1rem", "1rem", "1.2rem", "1.5rem 2rem"]}
           marginTop={"2rem"}
-          marginLeft="45%"
+          marginLeft={["25%", "30%", "35%", "45%"]}
           marginBottom={""}
           borderRadius="1.5em"
           bgColor={"#9fe7ab"}

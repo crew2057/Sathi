@@ -7,7 +7,6 @@ import NavBar from "./components/NavBar";
 import Redirect from "./components/Redirect";
 import { Auth } from "./data/auth";
 import NotFound from "./pages/404";
-import AboutUs from "./pages/AboutUs";
 
 import Home from "./pages/Home";
 import LoggedinHome from "./pages/LoggedinHome";
@@ -105,7 +104,6 @@ function App() {
             </Redirect>
           }
         ></Route>
-        <Route path="/aboutus" element={<AboutUs />}></Route>
 
         <Route path="*" element={<NotFound />}></Route>
       </Routes>

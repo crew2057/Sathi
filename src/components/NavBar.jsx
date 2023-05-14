@@ -53,6 +53,7 @@ const NavBar = React.forwardRef((props, ref) => {
           gap="1rem"
           alignItems={"center"}
           fontSize="1.4rem"
+          marginLeft={"1rem"}
           fontWeight="bold"
         >
           {user.role === "" ? (

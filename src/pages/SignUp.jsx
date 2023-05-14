@@ -24,7 +24,7 @@ export const SignUp = () => {
       <Box
         boxShadow={"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px "}
         bg={"white"}
-        w={"60%"}
+        w={["100%", "90%", "70%", "60%"]}
         minHeight={"50vh"}
         borderRadius={"1rem"}
         padding="1rem"
@@ -43,7 +43,10 @@ export const SignUp = () => {
             Back
           </Text>
         )}
-        <Heading textAlign={"center"} fontSize={"4rem"}>
+        <Heading
+          textAlign={"center"}
+          fontSize={["2.5rem", "2.5rem", "3rem", "4rem"]}
+        >
           {role} SignUp
         </Heading>
         {role === "" && (

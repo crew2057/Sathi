@@ -5,21 +5,22 @@ import {
   FormLabel,
   Heading,
   Input,
-  Textarea,
 } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { post } from "../../services/middleware";
 import { useNavigate } from "react-router-dom";
 import { User } from "../../data/loggedin";
-
+import MDEditor from "@uiw/react-md-editor";
 const BlogForm = () => {
   const { handleSubmit, register } = useForm();
   const navigate = useNavigate();
   const { user } = useContext(User);
+  const [content, setContent] = useState("");
   const onSubmit = async (values) => {
     const res = await post("http://localhost:5000/blog/", {
       ...values,
+      content: content,
       id: user.id,
     });
     if (res) {
@@ -62,12 +63,7 @@ const BlogForm = () => {
           </FormControl>
           <FormControl>
             <FormLabel>Content of Blog</FormLabel>
-            <Textarea
-              rows={20}
-              {...register("content", {
-                required: "Please enter content",
-              })}
-            />
+            <MDEditor value={content} onChange={setContent} />
           </FormControl>
           <Button colorScheme="teal" type="submit">
             Submit

@@ -50,12 +50,15 @@ export const Login = () => {
       <Box
         boxShadow={"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px "}
         bg={"white"}
-        w={"60%"}
+        w={["100%", "90%", "70%", "60%"]}
         height={"70%"}
         borderRadius={"1rem"}
         padding="1rem"
       >
-        <Heading textAlign={"center"} fontSize={"4rem"}>
+        <Heading
+          textAlign={"center"}
+          fontSize={["2.5rem", "2.5rem", "3rem", "4rem"]}
+        >
           Login
         </Heading>
         <form onSubmit={handleSubmit}>
@@ -63,13 +66,13 @@ export const Login = () => {
             direction="column"
             gap="2rem"
             alignItems={"center"}
-            marginTop={"5rem"}
+            marginTop={["1rem", "2rem", "4rem", "5rem"]}
             w="100%"
           >
             <Box
               border={error !== "" ? "1px solid red" : " 1px solid black"}
               borderRadius="1.5em"
-              w="75%"
+              w={["100%", "90%", "80%", "75%"]}
               padding="0.2em 2em 0.5em 0.5em"
             >
               <Text fontSize="1.2rem">Email</Text>
@@ -90,7 +93,7 @@ export const Login = () => {
             <Box
               border={error !== "" ? "1px solid red" : " 1px solid black"}
               borderRadius="1.5em"
-              w="75%"
+              w={["100%", "90%", "80%", "75%"]}
               padding="0.2em 2em 0.5em 0.5em"
             >
               <Text fontSize="1.2rem">Password</Text>

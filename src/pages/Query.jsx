@@ -94,9 +94,9 @@ export const symptomDiscriptor = [
 const QueryButton = ({ onClick, children, selected }) => (
   <Button
     variant={"outline"}
-    padding={" 2rem 3rem"}
-    fontSize={"2rem"}
-    minW="350px"
+    padding={["1rem", "2rem 3rem"]}
+    fontSize={["1rem", "", "1.2rem", "2rem"]}
+    minW={["80%", "350px"]}
     borderRadius={"2rem"}
     border={"2px solid black"}
     color={selected ? "white" : ""}
@@ -146,12 +146,12 @@ export const Query = () => {
     return symptomDiscriptor.map((discriptor, index) => {
       return (
         <Flex key={discriptor} direction="column" gap="1rem" w="100%" h="100%">
-          <Flex alignSelf={"start"}>
+          <Flex alignSelf={"start"} flexDirection={["column", "row"]}>
             {query.symptomQuery > 0 && (
               <Button
                 alignSelf={"center"}
                 background={"transparent"}
-                padding={"3rem"}
+                padding={"2rem"}
                 flexShrink={0}
                 onClick={() => {
                   setQuery({ ...query, symptomQuery: query.symptomQuery - 1 });
@@ -163,12 +163,22 @@ export const Query = () => {
               </Button>
             )}
             <Box>
-              <Heading> {discriptor.question.split("(")[0]}</Heading>
-              <Text>{discriptor.question.split("(")[1]}</Text>
+              <Heading fontSize={["1rem", "1.5rem"]}>
+                {" "}
+                {discriptor.question.split("(")[0]}
+              </Heading>
+              <Text fontSize={["1rem", "1.2rem"]}>
+                {discriptor.question.split("(")[1]}
+              </Text>
             </Box>
           </Flex>
 
-          <Flex alignSelf={"center"} gap={"1rem"} h="100%">
+          <Flex
+            alignSelf={"center"}
+            gap={"1rem"}
+            h="100%"
+            flexDirection={["column", "row"]}
+          >
             <Flex direction="column" gap={"1rem"} h="100%">
               <QueryButton
                 selected={selected === 1}
@@ -203,21 +213,21 @@ export const Query = () => {
                 5.All the time
               </QueryButton>
             </Flex>
-            {selected !== null && (
-              <Button
-                alignSelf={"center"}
-                background={"transparent"}
-                padding={"3rem"}
-                minH={"70%"}
-                onClick={() => {
-                  setQuery({ ...query, symptomQuery: query.symptomQuery + 1 });
-                  setSelected(null);
-                }}
-              >
-                Proceed
-                <AiOutlineArrowRight />
-              </Button>
-            )}
+
+            <Button
+              alignSelf={"center"}
+              background={"transparent"}
+              padding={"2rem"}
+              disabled={selected === null}
+              minH={"70%"}
+              onClick={() => {
+                setQuery({ ...query, symptomQuery: query.symptomQuery + 1 });
+                setSelected(null);
+              }}
+            >
+              Proceed
+              <AiOutlineArrowRight />
+            </Button>
           </Flex>
         </Flex>
       );
@@ -230,19 +240,19 @@ export const Query = () => {
       <>
         <Flex
           direction="column"
-          gap="2rem"
+          gap="1rem"
           alignItems={"center"}
           paddingTop="2rem"
           w="100%"
           height={"100%"}
         >
-          <Flex>
+          <Flex w="100%" flexDirection={["column", "row"]}>
             {query.symptomQuery >= Object.keys(symptoms).length &&
             !(query.query1 > 0) ? (
               <Button
                 alignSelf={"center"}
                 background={"transparent"}
-                padding={"3rem"}
+                padding={"2rem"}
                 flexShrink={0}
                 onClick={() => {
                   setQuery({ ...query, symptomQuery: query.symptomQuery - 1 });
@@ -256,7 +266,7 @@ export const Query = () => {
               <Button
                 alignSelf={"center"}
                 background={"transparent"}
-                padding={"3rem"}
+                padding={"2rem"}
                 flexShrink={0}
                 onClick={() => {
                   setQuery({ ...query, query1: query.query1 - 1 });
@@ -267,9 +277,16 @@ export const Query = () => {
                 Prev
               </Button>
             )}
-            <Heading>{therapistQuery[query.query1].title}</Heading>
+            <Heading fontSize={["1rem", "1.5rem"]}>
+              {therapistQuery[query.query1].title}
+            </Heading>
           </Flex>
-          <Flex alignSelf={"center"} gap={"3rem"} height={"100%"}>
+          <Flex
+            alignSelf={"center"}
+            gap={"3rem"}
+            height={"100%"}
+            flexDirection={["column", "row"]}
+          >
             <Flex direction={"column"} gap="1rem">
               {therapistQuery[query.query1].options.map((option, index) => {
                 return (
@@ -299,27 +316,29 @@ export const Query = () => {
                 );
               })}
             </Flex>
-            {selected !== null && (
-              <Button
-                alignSelf={"center"}
-                background={"transparent"}
-                padding={
-                  query.query1 === therapistQuery.length - 1
-                    ? "45rem 3rem 45rem 3rem"
-                    : "3rem"
-                }
-                onClick={() => {
-                  setQuery({
-                    ...query,
-                    query1: query.query1 + 1,
-                  });
-                  setSelected(null);
-                }}
-              >
-                Proceed
-                <AiOutlineArrowRight />
-              </Button>
-            )}
+
+            <Button
+              alignSelf={"center"}
+              background={"transparent"}
+              padding={
+                // query.query1 === therapistQuery.length - 1
+                //   ? "45rem 3rem 45rem 3rem"
+                //   : "2rem"
+                "2rem"
+              }
+              maxH={query.query1 === therapistQuery.length - 1 && "100%"}
+              disabled={selected === null}
+              onClick={() => {
+                setQuery({
+                  ...query,
+                  query1: query.query1 + 1,
+                });
+                setSelected(null);
+              }}
+            >
+              Proceed
+              <AiOutlineArrowRight />
+            </Button>
           </Flex>
         </Flex>
       </>
@@ -361,8 +380,10 @@ export const Query = () => {
         >
           {query.query1 < therapistQuery.length ? (
             <>
-              <Heading>Find the right therapist for you</Heading>
-              <Text>
+              <Heading fontSize={["1rem", "1.5rem"]}>
+                Find the right therapist for you
+              </Heading>
+              <Text fontSize={["1rem", "1.5rem"]}>
                 Fill this short questionnare so we can help you find the right
                 therapist for you
               </Text>
@@ -381,10 +402,23 @@ export const Query = () => {
             </>
           ) : (
             <>
-              <Heading>
+              <Button
+                alignSelf={"center"}
+                background={"transparent"}
+                padding={"1rem"}
+                flexShrink={0}
+                onClick={() => {
+                  setQuery({ ...query, symptomQuery: query.symptomQuery - 1 });
+                  setSelected(null);
+                }}
+              >
+                <AiOutlineArrowLeft size={"1rem"} />
+                Back
+              </Button>
+              <Heading fontSize={["1rem", "1.5rem"]}>
                 Thank You for taking your time to fill this questionare.
               </Heading>
-              <Text>
+              <Text fontSize={["1rem", "1.5rem"]}>
                 Before we reccomend your therapist we would like you to signup
                 such that we can provide you a better experience.
               </Text>

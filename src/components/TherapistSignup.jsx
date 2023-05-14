@@ -11,13 +11,15 @@ import {
   OrderedList,
   Select,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { post } from "../services/middleware";
+
 import { Auth } from "../data/auth";
+import axios from "axios";
 
 export const TherapistSignup = () => {
   const [therapistDetails, setTherapistDetails] = useState({
@@ -32,6 +34,7 @@ export const TherapistSignup = () => {
   } = useForm();
   const { setAuth } = useContext(Auth);
   const navigate = useNavigate();
+  const toast = useToast();
   const [extraErrors, setExtraErrors] = useState({
     speciality: false,
     communicationType: false,
@@ -74,16 +77,30 @@ export const TherapistSignup = () => {
         communicationType: false,
         term: false,
       });
-      const res = await post("http://localhost:5000/user/", {
-        ...values,
-        therapistDetails: therapistDetails,
-        role: "therapist",
-      });
-      if (res) {
-        localStorage.setItem("Stoken", res.data.token);
-        localStorage.setItem("userId", res.data.id);
-        setAuth(true);
-        navigate("/home");
+      try {
+        const res = await axios.post(
+          "http://localhost:5000/user/",
+          {
+            ...values,
+            therapistDetails: therapistDetails,
+            role: "therapist",
+          },
+          {},
+          () => console.log("fail")
+        );
+        if (res) {
+          localStorage.setItem("Stoken", res.data.token);
+          localStorage.setItem("userId", res.data.id);
+          setAuth(true);
+          navigate("/home");
+        }
+      } catch (error) {
+        toast({
+          status: "error",
+          description: error.response.data.message,
+          duration: 1000,
+          position: "top",
+        });
       }
     }
   };
